@@ -4,36 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parv Nandal - Portfolio</title>
+    <!-- Favicon added -->
+    <link rel="icon" type="image/png" sizes="16x16" href="icons.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration & Custom Styles -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
                     colors: {
                         brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
                             500: '#0ea5e9',
                             600: '#0284c7',
                             900: '#0c4a6e',
+                        },
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
                         }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(200,100%,20%,0.2) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(240,100%,20%,0.2) 0px, transparent 50%);
+            background-attachment: fixed;
         }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
         .gradient-text {
             background: linear-gradient(to right, #38bdf8, #818cf8);
             -webkit-background-clip: text;
@@ -41,79 +63,111 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 antialiased selection:bg-brand-500 selection:text-white">
+<body class="antialiased min-h-screen flex flex-col">
 
-    <nav class="fixed w-full z-50 top-0 transition-all duration-300 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-card border-b-0 border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="#" class="text-xl font-bold tracking-tighter hover:text-brand-500 transition-colors">PN.</a>
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold tracking-tighter text-white">Parv<span class="text-brand-500">.</span></span>
                 </div>
+                
+                <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-8 items-center">
                     <a href="#about" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">About</a>
                     <a href="#skills" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Skills</a>
                     <a href="#projects" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Projects</a>
-                    <a href="#resume" class="bg-brand-600 hover:bg-brand-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-[0_0_15px_rgba(2,132,199,0.5)]">
+                    <!-- Resume Link in Nav -->
+                    <a href="Resume.pdf" target="_blank" class="bg-brand-600 hover:bg-brand-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-[0_0_15px_rgba(2,132,199,0.5)]">
                         <i class="fas fa-file-alt mr-2"></i>Resume
                     </a>
                 </div>
+
                 <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
-                    <button class="text-gray-300 hover:text-white focus:outline-none">
-                        <i class="fas fa-bars text-xl"></i>
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
         </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-t border-gray-700">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">About</a>
+                <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Skills</a>
+                <a href="#projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Projects</a>
+                <a href="Resume.pdf" target="_blank" class="block px-3 py-2 rounded-md text-base font-medium text-brand-400 hover:text-brand-300">Resume</a>
+            </div>
+        </div>
     </nav>
 
-    <main class="pt-24 pb-12 md:pt-32 md:pb-24">
-        <section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
-            <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
-                <div class="w-full md:w-3/5 space-y-6 text-center md:text-left">
-                    <h2 class="text-brand-500 font-semibold tracking-wide uppercase text-sm">Hello, I'm</h2>
-                    <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tight">
-                        Parv <span class="gradient-text">Nandal</span>
-                    </h1>
-                    <p class="text-xl text-gray-400 max-w-2xl leading-relaxed">
-                        A passionate Machine Learning Enthusiast & Developer. I specialize in building data-driven solutions, predictive models, and turning complex datasets into actionable insights.
-                    </p>
-                    <div class="flex flex-wrap gap-4 justify-center md:justify-start pt-4">
-                        <a href="#projects" class="px-6 py-3 rounded-full bg-white text-gray-900 font-medium hover:bg-gray-100 transition-colors shadow-lg">
-                            View My Work
-                        </a>
-                        <a href="https://github.com/pervnandal" target="_blank" class="px-6 py-3 rounded-full glass-card text-white font-medium hover:bg-white/10 transition-colors flex items-center gap-2">
-                            <i class="fab fa-github text-xl"></i> GitHub
-                        </a>
-                    </div>
+    <!-- Main Content -->
+    <main class="flex-grow pt-20">
+        
+        <!-- Hero Section -->
+        <section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 flex flex-col-reverse lg:flex-row items-center justify-between min-h-[80vh] gap-12 lg:gap-8">
+            
+            <div class="max-w-3xl lg:w-3/5 text-center lg:text-left">
+                <p class="text-brand-400 font-medium tracking-wide mb-2">Hi, my name is</p>
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight">Parv Nandal.</h1>
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-400 mb-8">I build intelligence into applications.</h2>
+                <p class="text-lg text-gray-400 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                    I'm a Data Science and Machine Learning enthusiast specializing in building robust predictive models, recommendation systems, and deploying them using modern cloud & web technologies.
+                </p>
+                
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                    <a href="mailto:nandalparv3002@gmail.com" class="px-6 py-3 rounded-full bg-white text-dark-900 font-semibold hover:bg-gray-200 transition-colors flex items-center gap-2">
+                        <i class="fas fa-envelope"></i> Contact Me
+                    </a>
+                    <a href="https://github.com/pervnandal" target="_blank" class="px-6 py-3 rounded-full glass-card text-white hover:bg-white/10 transition-colors flex items-center gap-2 border border-gray-600">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/parvnandal" target="_blank" class="px-6 py-3 rounded-full glass-card text-white hover:bg-white/10 transition-colors flex items-center gap-2 border border-gray-600">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
                 </div>
-                <div class="w-48 h-48 md:w-72 md:h-72 rounded-full border-4 border-gray-800 overflow-hidden shadow-2xl relative group">
-                    <!-- Placeholder image, replace src with your actual photo -->
-                    <img src="https://placehold.co/400x400/1e293b/ffffff?text=PN" alt="Parv Nandal" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brand-500/20 group-hover:bg-transparent transition-colors duration-500"></div>
+            </div>
+
+            <!-- Profile Image -->
+            <div class="lg:w-2/5 flex justify-center lg:justify-end">
+                <div class="relative w-64 h-64 md:w-80 md:h-80 xl:w-96 xl:h-96 group">
+                    <!-- Subtle glow behind the image -->
+                    <div class="absolute inset-0 bg-brand-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
+                    <!-- The actual image -->
+                    <img src="self.jpeg" alt="Parv Nandal" class="relative z-10 w-full h-full object-cover rounded-full border-4 border-gray-800 shadow-2xl transition-transform duration-500 group-hover:scale-105 group-hover:border-gray-700" onerror="this.src='https://placehold.co/400x400/1e293b/38bdf8?text=Parv+Nandal'">
                 </div>
             </div>
         </section>
 
-        <section id="skills" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Skills & Strengths</h2>
-                <div class="h-1 w-20 bg-brand-500 mx-auto rounded-full"></div>
-            </div>
+        <!-- Skills Section -->
+        <section id="skills" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
+            <!-- Decorative background element -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-600/5 rounded-full blur-3xl pointer-events-none"></div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="mb-16 relative z-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 flex items-center gap-4">
+                    <span class="w-12 h-1 bg-brand-500 rounded-full hidden md:block"></span>
+                    Technical Expertise
+                </h2>
+                <p class="text-gray-400 max-w-2xl md:pl-16">A comprehensive toolkit spanning from data wrangling and model building to full-stack deployment and CI/CD operations.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
                 <!-- Skill Category 1 -->
                 <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300">
                     <div class="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center text-2xl mb-6">
                         <i class="fas fa-brain"></i>
                     </div>
                     <h3 class="text-xl font-semibold text-white mb-4">Machine Learning</h3>
-                    <p class="text-gray-400 mb-4 text-sm leading-relaxed">Designing predictive models, recommendation systems, and robust ML architectures.</p>
+                    <p class="text-gray-400 mb-4 text-sm leading-relaxed">Developing predictive models, NLP solutions, and recommendation engines.</p>
                     <div class="flex flex-wrap gap-2">
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Scikit-Learn</span>
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">TensorFlow/PyTorch</span>
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Pandas & NumPy</span>
-                        <span class="px-3 py-1 bg-brand-900/50 border border-brand-500/30 text-brand-300 text-xs rounded-full">Data Versioning</span>
+                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">NLP</span>
                     </div>
                 </div>
 
@@ -127,7 +181,8 @@
                     <div class="flex flex-wrap gap-2">
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Python</span>
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Streamlit</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">APIs</span>
+                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Flask</span>
+                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">FastAPI</span>
                     </div>
                 </div>
 
@@ -140,18 +195,21 @@
                     <p class="text-gray-400 mb-4 text-sm leading-relaxed">Deploying applications, managing pipelines, and version control efficiently.</p>
                     <div class="flex flex-wrap gap-2">
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">AWS (EC2)</span>
+                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Docker</span>
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Git & GitHub</span>
                         <span class="px-3 py-1 bg-brand-900/50 border border-brand-500/30 text-brand-300 text-xs rounded-full">CI/CD</span>
+                        <span class="px-3 py-1 bg-brand-900/50 border border-brand-500/30 text-brand-300 text-xs rounded-full">MLflow</span>
+                        <span class="px-3 py-1 bg-brand-900/50 border border-brand-500/30 text-brand-300 text-xs rounded-full">Data Versioning</span>
                     </div>
                 </div>
 
-                <!-- Skill Category 4 (New) -->
+                <!-- Skill Category 4 -->
                 <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300">
                     <div class="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-lg flex items-center justify-center text-2xl mb-6">
                         <i class="fas fa-database"></i>
                     </div>
                     <h3 class="text-xl font-semibold text-white mb-4">Databases</h3>
-                    <p class="text-gray-400 mb-4 text-sm leading-relaxed">Architecting, querying, and managing relational and NoSQL databases.</p>
+                    <p class="text-gray-400 mb-4 text-sm leading-relaxed">Designing, managing, and querying relational and NoSQL databases.</p>
                     <div class="flex flex-wrap gap-2">
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">PostgreSQL</span>
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">MongoDB</span>
@@ -161,87 +219,90 @@
             </div>
         </section>
 
-        <section id="projects" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32">
+        <!-- Major Projects Section -->
+        <section id="projects" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Major Projects</h2>
                 <div class="h-1 w-20 bg-brand-500 rounded-full mb-6"></div>
-                <p class="text-gray-400 max-w-2xl">Here are some of the comprehensive end-to-end applications I've developed, focusing on machine learning and robust system architectures.</p>
+                <p class="text-gray-400 max-w-2xl">Showcasing complex, end-to-end applications demonstrating machine learning architecture and deployment.</p>
             </div>
 
             <div class="space-y-12">
-                <!-- Major Project 1 -->
-                <div class="glass-card rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-colors flex flex-col md:flex-row">
-                    <div class="w-full md:w-5/12 bg-gray-800 p-8 flex flex-col justify-center relative overflow-hidden group">
-                        <!-- Abstract Background visual for project -->
-                        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] group-hover:scale-110 transition-transform duration-700"></div>
-                        <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/90 to-gray-900/90"></div>
-                        
-                        <div class="relative z-10 text-center">
-                            <i class="fas fa-film text-6xl text-brand-400 mb-4 drop-shadow-lg"></i>
-                            <h3 class="text-2xl font-bold text-white">Movie Recommendation System</h3>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-7/12 p-8 lg:p-10 flex flex-col justify-between">
-                        <div>
-                            <p class="text-gray-300 leading-relaxed mb-6">
-                                A highly accurate, content-based movie recommendation engine. It processes user input to suggest a tailored list of movies based on cinematic features and metadata, providing an intuitive and fast user experience.
+                <!-- Project 1: Movie Recommendation System -->
+                <div class="glass-card rounded-2xl p-6 md:p-10 border border-gray-700/50 hover:border-brand-500/30 transition-colors">
+                    <div class="flex flex-col lg:flex-row gap-8">
+                        <div class="lg:w-2/3 flex flex-col justify-center">
+                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Movie Recommendation System</h3>
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                A highly accurate content-based movie recommendation engine. The system leverages the TMDB API to fetch extensive movie metadata and processes the dataset to construct a mathematical Cosine Similarity matrix. This allows the application to instantly recommend 5 highly similar movies based on user selection, providing an intuitive and seamless user experience.
                             </p>
-                            <div class="mb-6">
-                                <h4 class="text-sm font-semibold text-gray-100 uppercase tracking-wider mb-3">Tech Stack & Approach</h4>
-                                <ul class="space-y-2 text-sm text-gray-400">
-                                    <li><i class="fas fa-check text-brand-500 mr-2"></i> Built using <strong>Python</strong> and a robust movie dataset.</li>
-                                    <li><i class="fas fa-check text-brand-500 mr-2"></i> Engineered a <strong>Cosine Similarity Matrix</strong> to find exact relationships between movies.</li>
-                                    <li><i class="fas fa-check text-brand-500 mr-2"></i> Integrated the <strong>TMDB API</strong> to dynamically fetch live movie posters and details.</li>
-                                    <li><i class="fas fa-check text-brand-500 mr-2"></i> Deployed an interactive web interface via <strong>Streamlit</strong>.</li>
-                                </ul>
+                            
+                            <div class="mb-8">
+                                <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Tech Stack</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fab fa-python text-brand-400 mr-2"></i>Python</span>
+                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-server text-brand-400 mr-2"></i>TMDB API</span>
+                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-calculator text-brand-400 mr-2"></i>Cosine Similarity</span>
+                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-laptop-code text-brand-400 mr-2"></i>Streamlit</span>
+                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-table text-brand-400 mr-2"></i>Pandas</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-wrap items-center gap-4 mt-auto">
+                                <a href="https://recommendkaromovie.streamlit.app" target="_blank" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-lg transition-colors flex items-center gap-2 font-medium">
+                                    <i class="fas fa-external-link-alt"></i> Live Preview
+                                </a>
+                                <a href="https://github.com/pervnandal/Movierecommendkaro.git" target="_blank" class="px-6 py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors flex items-center gap-2 font-medium border border-gray-600">
+                                    <i class="fab fa-github"></i> Source Code
+                                </a>
                             </div>
                         </div>
-                        <div class="flex flex-wrap gap-4 mt-4">
-                            <a href="https://recommendkaromovie.streamlit.app" target="_blank" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
-                                <i class="fas fa-external-link-alt"></i> Live Application
-                            </a>
-                            <a href="https://github.com/pervnandal/Movierecommendkaro.git" target="_blank" class="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 border border-gray-700">
-                                <i class="fab fa-github"></i> Source Code
-                            </a>
+                        <div class="lg:w-1/3 flex items-center justify-center">
+                            <!-- Visual placeholder for project -->
+                            <div class="w-full aspect-video lg:aspect-square bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700 flex flex-col items-center justify-center text-brand-500/50 shadow-inner">
+                                <i class="fas fa-film text-6xl mb-4"></i>
+                                <span class="font-medium tracking-widest text-sm text-gray-500">ML RECOMMENDATION</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Major Project 2 -->
-                <div class="glass-card rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-colors flex flex-col md:flex-row">
-                    <div class="w-full md:w-5/12 bg-gray-800 p-8 flex flex-col justify-center relative overflow-hidden group">
-                        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] group-hover:scale-110 transition-transform duration-700"></div>
-                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-900/90 to-gray-900/90"></div>
-                        
-                        <div class="relative z-10 text-center">
-                            <i class="fas fa-chart-line text-6xl text-emerald-400 mb-4 drop-shadow-lg"></i>
-                            <h3 class="text-2xl font-bold text-white">2-Model ML Architecture: Loan Prediction</h3>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-7/12 p-8 lg:p-10 flex flex-col justify-between">
-                        <div>
-                            <p class="text-gray-300 leading-relaxed mb-6">
-                                A robust predictive application that determines the likelihood of loan approvals. To ensure high accuracy and reliability, it utilizes a dual-model machine learning architecture to cross-verify predictions before outputting the final result.
+                <!-- Project 2: Loan Prediction -->
+                <div class="glass-card rounded-2xl p-6 md:p-10 border border-gray-700/50 hover:border-brand-500/30 transition-colors">
+                    <div class="flex flex-col lg:flex-row-reverse gap-8">
+                        <div class="lg:w-2/3 flex flex-col justify-center">
+                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Dual-Model Loan Prediction Architecture</h3>
+                            <p class="text-gray-300 mb-6 leading-relaxed">
+                                A robust predictive analytics pipeline designed to automate and improve the accuracy of loan approval processes. This project implements a 2-model Machine Learning architecture, handling complex financial datasets through rigorous preprocessing, feature engineering, and model optimization to deliver reliable approval predictions.
                             </p>
-                            <div class="mb-6">
-                                <h4 class="text-sm font-semibold text-gray-100 uppercase tracking-wider mb-3">Tech Stack & Approach</h4>
-                                <ul class="space-y-2 text-sm text-gray-400">
-                                    <li><i class="fas fa-check text-emerald-500 mr-2"></i> Developed in <strong>Python</strong> using advanced ML algorithms.</li>
-                                    <li><i class="fas fa-check text-emerald-500 mr-2"></i> Handled extensive Data Preprocessing and Feature Engineering.</li>
-                                    <li><i class="fas fa-check text-emerald-500 mr-2"></i> Designed a 2-model ensemble approach to boost confidence scores.</li>
-                                    <li><i class="fas fa-check text-emerald-500 mr-2"></i> Cloud experience: Successfully deployed onto an <strong>AWS EC2 instance</strong>.</li>
-                                </ul>
+                            
+                            <!-- Cloud Notification -->
+                            <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 mb-6 flex gap-3 text-sm text-blue-200">
+                                <i class="fas fa-info-circle text-blue-400 text-lg flex-shrink-0 mt-0.5"></i>
+                                <p><strong>Deployment Note:</strong> Originally deployed on an AWS EC2 instance. The instance is currently terminated to manage cloud costs, but configuring the server and learning cloud deployment was a fantastic hands-on experience!</p>
                             </div>
-                        </div>
-                        <div class="flex flex-col gap-4 mt-4">
-                            <div class="flex flex-wrap gap-4">
-                                <a href="https://github.com/pervnandal/LoanApprovalProjectUDSC.git" target="_blank" class="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 border border-gray-700">
-                                    <i class="fab fa-github"></i> Source Code
+
+                            <div class="mb-8">
+                                <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Tech Stack</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fab fa-python text-green-400 mr-2"></i>Python</span>
+                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-chart-line text-green-400 mr-2"></i>Scikit-Learn</span>
+                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-project-diagram text-green-400 mr-2"></i>Ensemble Methods</span>
+                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fab fa-aws text-green-400 mr-2"></i>AWS EC2</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-wrap items-center gap-4 mt-auto">
+                                <a href="https://github.com/pervnandal/LoanApprovalProjectUDSC.git" target="_blank" class="px-6 py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors flex items-center gap-2 font-medium border border-gray-600">
+                                    <i class="fab fa-github"></i> View Repository
                                 </a>
                             </div>
-                            <div class="inline-flex items-start gap-2 text-sm text-yellow-500/80 bg-yellow-500/10 p-3 rounded-lg border border-yellow-500/20">
-                                <i class="fas fa-info-circle mt-0.5"></i>
-                                <span><strong>Status:</strong> The live web application was deployed on an AWS EC2 instance. The instance is currently terminated, but building the CI/CD pipeline and learning about cloud deployment was an incredibly fun and valuable experience!</span>
+                        </div>
+                        <div class="lg:w-1/3 flex items-center justify-center">
+                            <!-- Visual placeholder for project -->
+                            <div class="w-full aspect-video lg:aspect-square bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700 flex flex-col items-center justify-center text-green-500/50 shadow-inner">
+                                <i class="fas fa-hand-holding-usd text-6xl mb-4"></i>
+                                <span class="font-medium tracking-widest text-sm text-gray-500">PREDICTIVE ML</span>
                             </div>
                         </div>
                     </div>
@@ -249,29 +310,56 @@
             </div>
         </section>
 
-        <section id="toy-projects" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32">
+        <!-- Toy Projects Section -->
+        <section id="toy-projects" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="mb-12">
                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Toy & Learning Projects</h2>
                 <div class="h-1 w-20 bg-brand-500 rounded-full mb-6"></div>
                 <p class="text-gray-400 max-w-2xl">Smaller-scale projects built while experimenting with new libraries, algorithms, and concepts.</p>
             </div>
             
-            <!-- We will fill this grid in the next step! -->
             <div id="toy-projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                <!-- Placeholder Card -->
-                <div class="glass-card rounded-xl p-6 border border-gray-800 border-dashed flex flex-col items-center justify-center text-center min-h-[250px]">
-                    <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center mb-4 animate-pulse">
-                        <i class="fas fa-plus text-gray-500"></i>
+                <!-- Toy Project 1: SMS Spam Classification -->
+                <div class="glass-card rounded-xl border border-gray-800 hover:border-brand-500/50 transition-colors flex flex-col overflow-hidden">
+                    <div class="h-32 bg-gray-800 flex items-center justify-center relative overflow-hidden group">
+                        <!-- Abstract Background for visual interest -->
+                        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] group-hover:scale-110 transition-transform duration-500"></div>
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 to-gray-900/90"></div>
+                        <i class="fas fa-envelope-open-text text-4xl text-blue-400 relative z-10 drop-shadow-md"></i>
                     </div>
-                    <h3 class="text-lg font-medium text-gray-300 mb-2">Ready for your projects!</h3>
-                    <p class="text-sm text-gray-500">Tell me about your toy projects in the chat, and I will populate this section with beautiful cards.</p>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold text-white mb-2">SMS Spam Classification</h3>
+                        <p class="text-sm text-gray-400 mb-4 flex-1">
+                            An NLP-based machine learning model that accurately classifies SMS messages as spam or ham (legitimate). Utilizes text vectorization and deployed via a responsive interface.
+                        </p>
+                        <div class="mb-4">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Python</span>
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Scikit-Learn</span>
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">NLP</span>
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Streamlit</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 mt-auto pt-4 border-t border-gray-800">
+                            <a href="https://sms-classification-new.streamlit.app" target="_blank" class="text-sm text-brand-400 hover:text-brand-300 transition-colors flex items-center gap-1 font-medium">
+                                <i class="fas fa-external-link-alt"></i> Live App
+                            </a>
+                            <span class="text-gray-700">|</span>
+                            <a href="https://github.com/pervnandal/sms-classification.git" target="_blank" class="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1 font-medium">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Add more toy projects here by duplicating the block above -->
 
             </div>
         </section>
 
-        <section id="resume" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-32 mb-16">
+        <!-- Resume Call to Action -->
+        <section id="resume" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 mb-20">
             <div class="bg-gradient-to-r from-brand-900/40 to-indigo-900/40 border border-brand-500/30 rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
                 <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-brand-500/20 rounded-full blur-3xl"></div>
                 <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl"></div>
@@ -281,47 +369,45 @@
                     <p class="text-gray-300 mb-8 max-w-2xl mx-auto text-lg">
                         You can download my full resume to get a detailed overview of my education, technical skills, and all the projects I've worked on.
                     </p>
-                    <!-- PLACEHOLDER FOR RESUME LINK: Replace the '#' in href="#" below with the path to your resume PDF (e.g., href="./Parv_Nandal_Resume.pdf") -->
-                    <a href="Resume.pdf" class="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full transition-all hover:scale-105 shadow-[0_0_20px_rgba(2,132,199,0.4)]">
+                    <!-- Resume Link in Call To Action -->
+                    <a href="Resume.pdf" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full transition-all hover:scale-105 shadow-[0_0_20px_rgba(2,132,199,0.4)]">
                         <i class="fas fa-download"></i> Download Resume (PDF)
                     </a>
                 </div>
             </div>
         </section>
-
+        
     </main>
 
-    <footer class="bg-gray-950 border-t border-gray-900 pt-12 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-            <div class="flex space-x-6 mb-8">
-                <a href="https://github.com/pervnandal" target="_blank" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-600 transition-all">
-                    <i class="fab fa-github text-xl"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/parvnandal" target="_blank" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-600 transition-all">
-                    <i class="fab fa-linkedin-in text-xl"></i>
-                </a>
-                <a href="mailto:nandalparv3002@gmail.com" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-600 transition-all">
+    <!-- Footer -->
+    <footer class="border-t border-white/10 bg-dark-900/50 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-500 text-sm mb-4 md:mb-0">
+                &copy; <script>document.write(new Date().getFullYear())</script> Parv Nandal. All rights reserved.
+            </p>
+            <div class="flex space-x-6">
+                <a href="mailto:nandalparv3002@gmail.com" class="text-gray-500 hover:text-white transition-colors">
                     <i class="fas fa-envelope text-xl"></i>
                 </a>
+                <a href="https://github.com/pervnandal" target="_blank" class="text-gray-500 hover:text-white transition-colors">
+                    <i class="fab fa-github text-xl"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/parvnandal" target="_blank" class="text-gray-500 hover:text-white transition-colors">
+                    <i class="fab fa-linkedin text-xl"></i>
+                </a>
             </div>
-            <p class="text-gray-600 text-sm">
-                &copy; <span id="year"></span> Parv Nandal. All rights reserved. Built with ❤️ and Machine Learning.
-            </p>
         </div>
     </footer>
 
+    <!-- Simple JS for Mobile Menu -->
     <script>
-        // Set current year in footer
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Add simple smooth scrolling for internal links (already handled mostly by css class scroll-smooth, but good to have)
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
         });
     </script>
 </body>
