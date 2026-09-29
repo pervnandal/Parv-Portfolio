@@ -91,7 +91,7 @@
                     <a href="#skills" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Skills</a>
                     <a href="#projects" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Projects</a>
                     <!-- Resume Link in Nav -->
-                    <a href="Resume.pdf" target="_blank" class="bg-brand-600 hover:bg-brand-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-[0_0_15px_rgba(2,132,199,0.5)]">
+                    <a href="Nandal,Parv-resume.pdf" target="_blank" class="bg-brand-600 hover:bg-brand-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-[0_0_15px_rgba(2,132,199,0.5)]">
                         <i class="fas fa-file-alt mr-2"></i>Resume
                     </a>
                 </div>
@@ -184,7 +184,8 @@
                     <p class="text-gray-400 mb-4 text-sm leading-relaxed">Developing predictive models, NLP solutions, and recommendation engines.</p>
                     <div class="flex flex-wrap gap-2">
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Scikit-Learn</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">TensorFlow/PyTorch</span>
+                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Keras/TF</span>
+                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">PyTorch</span>
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Pandas & NumPy</span>
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">NLP</span>
                     </div>
@@ -213,11 +214,11 @@
                     <h3 class="text-xl font-semibold text-white mb-4">Cloud & DevOps</h3>
                     <p class="text-gray-400 mb-4 text-sm leading-relaxed">Deploying applications, managing pipelines, and version control efficiently.</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">AWS (EC2)</span>
+                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">AWS</span>
+                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Azure</span>
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Docker</span>
                         <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Git & GitHub</span>
                         <span class="px-3 py-1 bg-brand-900/50 border border-brand-500/30 text-brand-300 text-xs rounded-full">CI/CD</span>
-                        <span class="px-3 py-1 bg-brand-900/50 border border-brand-500/30 text-brand-300 text-xs rounded-full">MLflow</span>
                         <span class="px-3 py-1 bg-brand-900/50 border border-brand-500/30 text-brand-300 text-xs rounded-full">Data Versioning</span>
                     </div>
                 </div>
@@ -247,46 +248,7 @@
             </div>
 
             <div class="space-y-12">
-                <!-- Project 1: Movie Recommendation System -->
-                <div class="glass-card rounded-2xl p-6 md:p-10 border border-gray-700/50 hover:border-brand-500/30 transition-colors">
-                    <div class="flex flex-col lg:flex-row gap-8">
-                        <div class="lg:w-2/3 flex flex-col justify-center">
-                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Movie Recommendation System</h3>
-                            <p class="text-gray-300 mb-6 leading-relaxed">
-                                A highly accurate content-based movie recommendation engine. The system leverages the TMDB API to fetch extensive movie metadata and processes the dataset to construct a mathematical Cosine Similarity matrix. This allows the application to instantly recommend 5 highly similar movies based on user selection, providing an intuitive and seamless user experience.
-                            </p>
-                            
-                            <div class="mb-8">
-                                <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Tech Stack</h4>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fab fa-python text-brand-400 mr-2"></i>Python</span>
-                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-server text-brand-400 mr-2"></i>TMDB API</span>
-                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-calculator text-brand-400 mr-2"></i>Cosine Similarity</span>
-                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-laptop-code text-brand-400 mr-2"></i>Streamlit</span>
-                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-table text-brand-400 mr-2"></i>Pandas</span>
-                                </div>
-                            </div>
-                            
-                            <div class="flex flex-wrap items-center gap-4 mt-auto">
-                                <a href="https://recommendkaromovie.streamlit.app" target="_blank" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-lg transition-colors flex items-center gap-2 font-medium">
-                                    <i class="fas fa-external-link-alt"></i> Live Preview
-                                </a>
-                                <a href="https://github.com/pervnandal/Movierecommendkaro.git" target="_blank" class="px-6 py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors flex items-center gap-2 font-medium border border-gray-600">
-                                    <i class="fab fa-github"></i> Source Code
-                                </a>
-                            </div>
-                        </div>
-                        <div class="lg:w-1/3 flex items-center justify-center">
-                            <!-- Visual placeholder for project -->
-                            <div class="w-full aspect-video lg:aspect-square bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700 flex flex-col items-center justify-center text-brand-500/50 shadow-inner">
-                                <i class="fas fa-film text-6xl mb-4"></i>
-                                <span class="font-medium tracking-widest text-sm text-gray-500">ML RECOMMENDATION</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 2: Loan Prediction -->
+                <!-- Project 1: Loan Prediction (Promoted to sole Major Project) -->
                 <div class="glass-card rounded-2xl p-6 md:p-10 border border-gray-700/50 hover:border-brand-500/30 transition-colors">
                     <div class="flex flex-col lg:flex-row-reverse gap-8">
                         <div class="lg:w-2/3 flex flex-col justify-center">
@@ -372,7 +334,67 @@
                     </div>
                 </div>
 
-                <!-- Add more toy projects here by duplicating the block above -->
+                <!-- Toy Project 2: Movie Recommendation System -->
+                <div class="glass-card rounded-xl border border-gray-800 hover:border-brand-500/50 transition-colors flex flex-col overflow-hidden">
+                    <div class="h-32 bg-gray-800 flex items-center justify-center relative overflow-hidden group">
+                        <!-- Abstract Background for visual interest -->
+                        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] group-hover:scale-110 transition-transform duration-500"></div>
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 to-gray-900/90"></div>
+                        <i class="fas fa-film text-4xl text-blue-400 relative z-10 drop-shadow-md"></i>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold text-white mb-2">Movie Recommendation</h3>
+                        <p class="text-sm text-gray-400 mb-4 flex-1">
+                            A content-based recommendation engine leveraging TMDB API and Cosine Similarity to suggest similar movies instantly.
+                        </p>
+                        <div class="mb-4">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Python</span>
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">TMDB API</span>
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Streamlit</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 mt-auto pt-4 border-t border-gray-800">
+                            <a href="https://recommendkaromovie.streamlit.app" target="_blank" class="text-sm text-brand-400 hover:text-brand-300 transition-colors flex items-center gap-1 font-medium">
+                                <i class="fas fa-external-link-alt"></i> Live App
+                            </a>
+                            <span class="text-gray-700">|</span>
+                            <a href="https://github.com/pervnandal/Movierecommendkaro.git" target="_blank" class="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1 font-medium">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toy Project 3: End-to-End ML Pipeline -->
+                <div class="glass-card rounded-xl border border-gray-800 hover:border-brand-500/50 transition-colors flex flex-col overflow-hidden">
+                    <div class="h-32 bg-gray-800 flex items-center justify-center relative overflow-hidden group">
+                        <!-- Abstract Background for visual interest -->
+                        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] group-hover:scale-110 transition-transform duration-500"></div>
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 to-gray-900/90"></div>
+                        <i class="fas fa-project-diagram text-4xl text-blue-400 relative z-10 drop-shadow-md"></i>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold text-white mb-2">End-to-End ML Pipeline</h3>
+                        <p class="text-sm text-gray-400 mb-4 flex-1">
+                            An industry-level project built to understand the complete ML lifecycle. Focuses heavily on MLOps, modular coding, version control, and data pipeline management.
+                        </p>
+                        <div class="mb-4">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Python</span>
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Scikit-Learn</span>
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Flask</span>
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Git</span>
+                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">DagsHub</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 mt-auto pt-4 border-t border-gray-800">
+                            <a href="https://github.com/pervnandal/datascienceproject.git" target="_blank" class="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1 font-medium">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </section>
