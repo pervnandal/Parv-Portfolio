@@ -1,159 +1,245 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parv Nandal - Portfolio</title>
-    <!-- Favicon added -->
-    <link rel="icon" type="image/png" sizes="16x16" href="icons.png">
-    
+    <title>Parv Nandal — AI & ML Engineer</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="icon.png">
+
+    <!-- Google Fonts: Inter, JetBrains Mono, Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,600&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Three.js r128 for the 3D Cathode Session Workstation Background -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- Tailwind Configuration & Custom Styles -->
+
+    <!-- React 18, ReactDOM 18, Framer Motion & Babel for Task 2 ContainerScroll Component -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.5/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            900: '#0c4a6e',
+                        card: { DEFAULT: 'var(--card)', foreground: 'var(--card-foreground)' },
+                        ring: 'var(--ring)',
+                        input: 'var(--input)',
+                        muted: { DEFAULT: 'var(--muted)', foreground: 'var(--muted-foreground)' },
+                        accent: { DEFAULT: 'var(--accent)', foreground: 'var(--accent-foreground)' },
+                        border: 'var(--border)',
+                        popover: { DEFAULT: 'var(--popover)', foreground: 'var(--popover-foreground)' },
+                        primary: { DEFAULT: 'var(--primary)', foreground: 'var(--primary-foreground)' },
+                        secondary: { DEFAULT: 'var(--secondary)', foreground: 'var(--secondary-foreground)' },
+                        background: 'var(--background)',
+                        foreground: 'var(--foreground)',
+                        destructive: { DEFAULT: 'var(--destructive)', foreground: 'var(--destructive-foreground)' },
+                        sidebar: {
+                            DEFAULT: 'var(--sidebar)',
+                            foreground: 'var(--sidebar-foreground)',
+                            primary: 'var(--sidebar-primary)',
+                            'primary-foreground': 'var(--sidebar-primary-foreground)',
+                            accent: 'var(--sidebar-accent)',
+                            'accent-foreground': 'var(--sidebar-accent-foreground)',
+                            border: 'var(--sidebar-border)',
+                            ring: 'var(--sidebar-ring)',
                         },
-                        dark: {
-                            900: '#0f172a',
-                            800: '#1e293b',
-                            700: '#334155',
+                        chart: {
+                            1: 'var(--chart-1)',
+                            2: 'var(--chart-2)',
+                            3: 'var(--chart-3)',
+                            4: 'var(--chart-4)',
+                            5: 'var(--chart-5)',
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                        mono: ['Fira Code', 'monospace'],
+                        sans: ['var(--font-sans)', 'Inter', 'sans-serif'],
+                        mono: ['var(--font-mono)', 'JetBrains Mono', 'monospace'],
+                        serif: ['var(--font-serif)', 'Playfair Display', 'serif'],
+                    },
+                    borderRadius: {
+                        lg: 'var(--radius)',
+                        md: 'calc(var(--radius) - 2px)',
+                        sm: 'calc(var(--radius) - 4px)',
                     }
                 }
             }
         }
     </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Fragment+Mono&family=Inter:wght@300;400;500;600;700&display=swap');
-        
+        :root {
+            --card: #F4EFE4;
+            --ring: #2E2E2E;
+            --input: #D2CBBB;
+            --muted: #CFC8B8;
+            --accent: #E6E4D7;
+            --border: #D2CBBB;
+            --radius: 0.5rem;
+            --chart-1: #F26A4B;
+            --chart-2: #1E1E1E;
+            --chart-3: #5E5A52;
+            --chart-4: #A89F8F;
+            --chart-5: #CFC8B8;
+            --popover: #F4EFE4;
+            --primary: #2E2E2E;
+            --sidebar: #E3DDCF;
+            --spacing: 0.25rem;
+            --font-mono: "JetBrains Mono", monospace;
+            --font-sans: "Inter", sans-serif;
+            --secondary: #D8D2C4;
+            --background: #E9E4D8;
+            --font-serif: "Playfair Display", serif;
+            --foreground: #1E1E1E;
+            --destructive: #DC2626;
+            --shadow-blur: 10px;
+            --shadow-color: #000000;
+            --sidebar-ring: #2E2E2E;
+            --shadow-spread: 0px;
+            --letter-spacing: 0.01em;
+            --shadow-opacity: 0.1;
+            --sidebar-accent: #E6E4D7;
+            --sidebar-border: #D2CBBB;
+            --card-foreground: #1E1E1E;
+            --shadow-offset-x: 0px;
+            --shadow-offset-y: 4px;
+            --sidebar-primary: #2E2E2E;
+            --muted-foreground: #5E5A52;
+            --accent-foreground: #2E2E2E;
+            --popover-foreground: #1E1E1E;
+            --primary-foreground: #E6E4D7;
+            --sidebar-foreground: #1E1E1E;
+            --secondary-foreground: #2E2E2E;
+            --destructive-foreground: #FFFFFF;
+            --sidebar-accent-foreground: #2E2E2E;
+            --sidebar-primary-foreground: #E6E4D7;
+        }
+
+        .dark {
+            --card: #1C1C1C;
+            --ring: #D1CFC0;
+            --input: #2C2C2C;
+            --muted: #2A2A2A;
+            --accent: #363636;
+            --border: #2C2C2C;
+            --radius: 0.5rem;
+            --chart-1: #F26A4B;
+            --chart-2: #D9CFC2;
+            --chart-3: #8E8A83;
+            --chart-4: #5C5A56;
+            --chart-5: #3B3B3B;
+            --popover: #1C1C1C;
+            --primary: #D1CFC0;
+            --sidebar: #101010;
+            --spacing: 0.25rem;
+            --font-mono: "JetBrains Mono", monospace;
+            --font-sans: "Inter", sans-serif;
+            --secondary: #222222;
+            --background: #141414;
+            --font-serif: "Playfair Display", serif;
+            --foreground: #E8E3DA;
+            --destructive: #EF4444;
+            --shadow-blur: 15px;
+            --shadow-color: #000000;
+            --sidebar-ring: #D1CFC0;
+            --shadow-spread: 0px;
+            --letter-spacing: 0.01em;
+            --shadow-opacity: 0.3;
+            --sidebar-accent: #363636;
+            --sidebar-border: #2C2C2C;
+            --card-foreground: #E8E3DA;
+            --shadow-offset-x: 0px;
+            --shadow-offset-y: 6px;
+            --sidebar-primary: #D1CFC0;
+            --muted-foreground: #8E8A83;
+            --accent-foreground: #D1CFC0;
+            --popover-foreground: #E8E3DA;
+            --primary-foreground: #363636;
+            --sidebar-foreground: #E8E3DA;
+            --secondary-foreground: #D1CFC0;
+            --destructive-foreground: #FFFFFF;
+            --sidebar-accent-foreground: #D1CFC0;
+            --sidebar-primary-foreground: #363636;
+        }
+
+        * {
+            letter-spacing: var(--letter-spacing);
+        }
+
         body {
-            background-color: #050608;
-            color: #f8fafc;
-            background-image: 
-                radial-gradient(at 70% 45%, hsla(205, 80%, 12%, 0.25) 0px, transparent 55%),
-                radial-gradient(at 15% 85%, hsla(220, 60%, 8%, 0.35) 0px, transparent 50%);
-            background-attachment: fixed;
+            background-color: var(--background);
+            color: var(--foreground);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            transition: background-color 0.35s ease, color 0.35s ease;
         }
 
-        .glass-card {
-            background: rgba(15, 19, 28, 0.72);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            box-shadow: 0 4px 20px -1px rgba(0, 0, 0, 0.5);
-        }
-
-        .gradient-text {
-            background: linear-gradient(to right, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Typing cursor */
-        .cursor::after {
-            content: '|';
-            animation: blink 1s step-end infinite;
-            color: #38bdf8;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        #neural-world-canvas {
+        /* 3D Cathode Session Workstation WebGL Canvas */
+        #cathode-canvas-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: 0;
-            display: block;
-            pointer-events: auto;
+            pointer-events: none;
+            opacity: 0.82;
+            transition: opacity 0.4s ease;
         }
 
-        nav, main, footer {
-            position: relative;
-            z-index: 10;
+        html:not(.dark) #cathode-canvas-container {
+            opacity: 0.22;
+            filter: contrast(1.1) sepia(0.15);
         }
 
-        /* */
+        /* Elevated theme card surface */
+        .glass-card {
+            background: color-mix(in srgb, var(--card) 86%, transparent);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-offset-x) var(--shadow-offset-y) var(--shadow-blur) var(--shadow-spread) rgba(0, 0, 0, var(--shadow-opacity));
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .glass-card:hover {
+            border-color: var(--chart-1);
+        }
+
         .sable-dock-wrapper {
             position: fixed;
-            top: 1.25rem;
-            left: 0;
-            right: 0;
-            z-index: 50;
+            top: 1.15rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 60;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 0 1rem;
-            pointer-events: none;
+            align-items: center;
+            gap: 0.65rem;
+            max-width: 96vw;
         }
 
-        .sable-dock {
-            pointer-events: auto;
+        .sable-dock-capsule {
             position: relative;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 0.35rem;
-            padding: 0.42rem 0.55rem;
+            padding: 0.4rem 0.65rem;
             border-radius: 9999px;
-            background: linear-gradient(180deg, rgba(20, 23, 31, 0.84) 0%, rgba(9, 11, 16, 0.94) 100%);
+            background: color-mix(in srgb, var(--card) 82%, transparent);
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            box-shadow:
-                0 18px 40px -10px rgba(0, 0, 0, 0.78),
-                0 4px 12px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 0 rgba(255, 255, 255, 0.16),
-                inset 0 -1px 0 0 rgba(0, 0, 0, 0.65);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .sable-dock::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: radial-gradient(
-                140px circle at var(--dock-mouse-x, 50%) var(--dock-mouse-y, 0%),
-                rgba(125, 211, 252, 0.16),
-                transparent 70%
-            );
-            opacity: var(--dock-glow-opacity, 0);
-            transition: opacity 0.25s ease;
-            pointer-events: none;
-        }
-
-        .sable-dock-brand {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 0.85rem 0 0.7rem;
-            height: 38px;
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            color: #f8fafc;
-            font-size: 1.05rem;
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
-            margin-right: 0.15rem;
-            user-select: none;
-            text-decoration: none;
+            border: 1px solid var(--border);
+            box-shadow: 0 12px 34px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
         }
 
         .sable-dock-item {
@@ -161,432 +247,843 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.45rem;
+            gap: 0.4rem;
+            padding: 0.45rem 0.95rem;
             border-radius: 9999px;
-            color: rgba(226, 232, 240, 0.78);
-            font-family: 'Fragment Mono', 'Fira Code', monospace;
+            font-family: var(--font-mono);
             font-size: 0.76rem;
-            letter-spacing: -0.01em;
-            white-space: nowrap;
+            font-weight: 500;
+            color: var(--muted-foreground);
             text-decoration: none;
-            background: rgba(255, 255, 255, 0.015);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
-            will-change: width, height, transform, background, border-color;
+            white-space: nowrap;
+            will-change: width, height, transform;
+            transition: color 0.2s ease, background-color 0.2s ease;
             user-select: none;
-            cursor: pointer;
         }
 
-        .sable-dock-item:hover {
-            color: #ffffff;
+        .sable-dock-item:hover,
+        .sable-dock-item.active {
+            color: var(--foreground);
+            background: color-mix(in srgb, var(--accent) 75%, transparent);
         }
 
-        .sable-dock-item-resume {
-            background: linear-gradient(180deg, rgba(14, 165, 233, 0.24) 0%, rgba(2, 132, 199, 0.14) 100%);
-            border-color: rgba(56, 189, 248, 0.35);
-            color: #e0f2fe;
-            box-shadow:
-                0 0 18px rgba(14, 165, 233, 0.22),
-                inset 0 1px 0 0 rgba(186, 230, 253, 0.28);
-        }
-
-        .sable-dock-dot {
-            position: absolute;
-            bottom: 4px;
-            left: 50%;
-            width: 4px;
-            height: 4px;
+        .sable-dock-item .dock-dot {
+            width: 5px;
+            height: 5px;
             border-radius: 9999px;
-            background: #38bdf8;
-            box-shadow: 0 0 8px #38bdf8;
-            transform: translateX(-50%) scale(0);
+            background-color: var(--chart-1);
             opacity: 0;
+            transform: scale(0.4);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .sable-dock-item:hover .dock-dot,
+        .sable-dock-item.active .dock-dot {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .skill-morph-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.15rem;
+            background: color-mix(in srgb, var(--card) 88%, transparent);
+            border: 1px solid var(--border);
+            transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(16px);
+        }
+
+        .skill-morph-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), color-mix(in srgb, var(--chart-1) 16%, transparent), transparent 45%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
             pointer-events: none;
+        }
+
+        .skill-morph-card:hover::before {
+            opacity: 1;
+        }
+
+        .skill-morph-card:hover {
+            transform: translateY(-6px) scale(1.012);
+            border-color: var(--chart-1);
+            box-shadow: 0 20px 40px -15px rgba(242, 106, 75, 0.18);
+        }
+
+        .skill-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.38rem 0.75rem;
+            border-radius: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            background-color: var(--secondary);
+            color: var(--secondary-foreground);
+            border: 1px solid var(--border);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .skill-morph-card:hover .skill-pill:hover {
+            background-color: var(--chart-1);
+            color: #FFFFFF;
+            border-color: var(--chart-1);
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        /* Typewriter & Gradient Text */
+        .gradient-text {
+            background: linear-gradient(95deg, var(--chart-1) 0%, var(--foreground) 95%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cursor::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+            color: var(--chart-1);
+            -webkit-text-fill-color: var(--chart-1);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col">
 
-    <canvas id="neural-world-canvas"></canvas>
+<body class="antialiased min-h-screen flex flex-col selection:bg-chart-1 selection:text-white relative">
 
-    <!-- Floating Interactive 3D Cathode Workstation Controller HUD -->
-    <div class="fixed bottom-4 right-4 z-50 glass-card px-4 py-2.5 rounded-full border border-white/15 flex items-center gap-3 text-xs font-mono text-gray-300 shadow-2xl">
-        <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
-        <span class="hidden sm:inline text-white font-semibold tracking-wider">CATHODE_SESSION</span>
-        <span class="text-gray-600 hidden sm:inline">|</span>
-        <span id="butterfly-state-hud" class="text-gray-400">Built for the Long Session</span>
-        <button id="trigger-scan-btn" class="ml-1 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-colors cursor-pointer">
-            <i class="fas fa-layer-group mr-1 text-sky-400"></i>Slice CRT
+    <!-- Background: 3D Cathode Session Workstation (from previous iteration) -->
+    <div id="cathode-canvas-container" aria-hidden="true"></div>
+
+    <!-- Bottom-Right Interactive 3D Workstation HUD Controls -->
+    <div class="fixed bottom-5 right-5 z-40 hidden sm:flex items-center gap-2 glass-card px-3.5 py-2 rounded-full text-xs font-mono">
+        <span class="w-2 h-2 rounded-full bg-chart-1 animate-pulse"></span>
+        <span class="text-muted-foreground">Cathode Workstation</span>
+        <button id="slice-crt-btn" class="ml-1 px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground hover:bg-chart-1 hover:text-white transition-colors font-semibold">
+            Slice CRT
         </button>
     </div>
 
+    <!-- Navigation: Sable Animated Top Dock (with Spring-Damper Physics) -->
     <header class="sable-dock-wrapper">
-        <nav id="sable-top-dock" class="sable-dock" aria-label="Primary Navigation">
-            <a href="#about" class="sable-dock-brand">
-                Parv<span class="text-brand-400">.</span>
+        <nav id="sable-dock" class="sable-dock-capsule" aria-label="Primary Navigation">
+            <a href="#about" class="sable-dock-item active" data-dock-item>
+                <span class="dock-dot"></span>
+                <span>01.About</span>
             </a>
-
-            <a href="#about" class="sable-dock-item" data-dock-item>
-                <i class="fas fa-terminal text-[11px] text-sky-400/90"></i>
-                <span>About</span>
-                <span class="sable-dock-dot"></span>
-            </a>
-
             <a href="#skills" class="sable-dock-item" data-dock-item>
-                <i class="fas fa-microchip text-[11px] text-sky-400/90"></i>
-                <span>Skills</span>
-                <span class="sable-dock-dot"></span>
+                <span class="dock-dot"></span>
+                <span>02.Skills</span>
             </a>
-
             <a href="#projects" class="sable-dock-item" data-dock-item>
-                <i class="fas fa-cube text-[11px] text-sky-400/90"></i>
-                <span>Projects</span>
-                <span class="sable-dock-dot"></span>
+                <span class="dock-dot"></span>
+                <span>03.Projects</span>
             </a>
-
             <a href="#toy-projects" class="sable-dock-item hidden sm:inline-flex" data-dock-item>
-                <i class="fas fa-flask text-[11px] text-sky-400/90"></i>
-                <span>Lab</span>
-                <span class="sable-dock-dot"></span>
+                <span class="dock-dot"></span>
+                <span>04.Sandbox</span>
             </a>
-
-            <a href="Nandal,Parv-resume.pdf" target="_blank" class="sable-dock-item sable-dock-item-resume" data-dock-item>
-                <i class="fas fa-file-alt text-[11px] text-sky-300"></i>
+            <a href="Nandal,Parv-resume.pdf" target="_blank" class="sable-dock-item !bg-chart-1 !text-white font-semibold shadow-sm" data-dock-item>
+                <i class="fas fa-file-pdf text-xs"></i>
                 <span>Resume</span>
-                <span class="sable-dock-dot"></span>
             </a>
         </nav>
+
+        <!-- Theme Switcher Button (:root Warm Editorial vs .dark Carbon Matte) -->
+        <button id="theme-toggle" title="Toggle Light / Dark Theme" class="sable-dock-capsule !p-2.5 text-foreground hover:text-chart-1 transition-colors cursor-pointer">
+            <i id="theme-icon" class="fas fa-sun text-sm"></i>
+        </button>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow pt-20">
-        
-        <!-- Hero Section -->
-        <section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 flex flex-col-reverse lg:flex-row items-center justify-between min-h-[80vh] gap-12 lg:gap-8">
-            
-            <div class="max-w-3xl lg:w-3/5 text-center lg:text-left">
-                <!-- Initializing Pill Added Here -->
-                <div class="inline-flex items-center px-4 py-1.5 rounded-full border border-brand-500/30 bg-brand-500/10 text-brand-300 font-mono text-sm mb-6 backdrop-blur-sm shadow-[0_0_15px_rgba(14,165,233,0.2)]">
-                    <i class="fas fa-robot mr-2"></i> Initializing System...
-                </div>
-                
-                <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight">Parv Nandal.</h1>
-                
-                <!-- Typewriter Effect Added Here -->
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-400 mb-8 h-12 md:h-16">I build <span id="typewriter" class="gradient-text cursor"></span></h2>
-                
-                <p class="text-lg text-gray-400 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                    I'm a Machine Learning and Artificial Intelligence enthusiast specializing in building robust predictive models, LLMs, AI agents, and deploying them using modern cloud & web technologies.
-                </p>
-                
-                <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
-                    <a href="mailto:nandalparv3002@gmail.com" class="px-6 py-3 rounded-full bg-white text-dark-900 font-semibold hover:bg-gray-200 transition-colors flex items-center gap-2">
-                        <i class="fas fa-envelope"></i> Contact Me
-                    </a>
-                    <a href="https://github.com/pervnandal" target="_blank" class="px-6 py-3 rounded-full glass-card text-white hover:bg-white/10 transition-colors flex items-center gap-2 border border-gray-600">
-                        <i class="fab fa-github"></i> GitHub
-                    </a>
-                    <a href="https://www.linkedin.com/in/parvnandal" target="_blank" class="px-6 py-3 rounded-full glass-card text-white hover:bg-white/10 transition-colors flex items-center gap-2 border border-gray-600">
-                        <i class="fab fa-linkedin"></i> LinkedIn
-                    </a>
-                </div>
-            </div>
+    <main class="flex-grow relative z-10 pt-16">
 
-            <!-- Profile Image -->
-            <div class="lg:w-2/5 flex justify-center lg:justify-end">
-                <div class="relative w-64 h-64 md:w-80 md:h-80 xl:w-96 xl:h-96 group">
-                    <!-- Subtle glow behind the image -->
-                    <div class="absolute inset-0 bg-brand-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
-                    <!-- The actual image -->
-                    <img src="self.jpeg" alt="Parv Nandal" class="relative z-10 w-full h-full object-cover rounded-full border-4 border-gray-800 shadow-2xl transition-transform duration-500 group-hover:scale-105 group-hover:border-gray-700" onerror="this.src='https://placehold.co/400x400/1e293b/38bdf8?text=Parv+Nandal'">
-                </div>
-            </div>
-        </section>
+        <!-- 01. About & Hero Section -->
+        <section id="about" class="relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 md:pt-24 md:pb-16">
+                <div class="flex flex-col-reverse lg:flex-row items-center justify-between min-h-[70vh] gap-12 lg:gap-8">
+                    <!-- Left Column: Intro, Typewriter & Bio -->
+                    <div class="max-w-3xl lg:w-3/5 text-center lg:text-left">
+                        <div class="inline-flex items-center px-4 py-1.5 rounded-full border border-chart-1/40 bg-chart-1/10 text-chart-1 font-mono text-xs md:text-sm mb-5 backdrop-blur-sm shadow-sm">
+                            <i class="fas fa-robot mr-2"></i> Initializing System...
+                        </div>
 
-        <!-- Skills Section -->
-        <section id="skills" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
-            <!-- Decorative background element -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-600/5 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <div class="mb-16 relative z-10">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 flex items-center gap-4">
-                    <span class="w-12 h-1 bg-brand-500 rounded-full hidden md:block"></span>
-                    Technical Expertise
-                </h2>
-                <p class="text-gray-400 max-w-2xl md:pl-16">A comprehensive toolkit spanning from data wrangling and model building to full-stack deployment and CI/CD operations.</p>
-            </div>
+                        <p class="text-chart-1 font-mono font-medium tracking-wide mb-2 text-sm md:text-base">Hi, my name is</p>
+                        <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold text-foreground mb-4 tracking-tight font-serif">
+                            Parv Nandal<span class="text-chart-1">.</span>
+                        </h1>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-                <!-- Skill Category 1 -->
-                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center text-2xl mb-6">
-                        <i class="fas fa-brain"></i>
+                        <h2 class="text-2xl sm:text-3xl md:text-5xl font-bold text-muted-foreground mb-6 min-h-[3.5rem] md:min-h-[4rem]">
+                            I build <span id="typewriter" class="gradient-text cursor font-mono"></span>
+                        </h2>
+
+                        <p class="text-base md:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                            I'm a <strong class="text-foreground">Machine Learning and Artificial Intelligence enthusiast</strong> specializing in building robust predictive models, LLMs, AI agents, and deploying them using modern cloud &amp; web technologies.
+                        </p>
+
+                        <div class="flex flex-wrap gap-4 justify-center lg:justify-start font-mono text-xs sm:text-sm">
+                            <a href="mailto:nandalparv3002@gmail.com" class="px-6 py-3.5 rounded-full bg-chart-1 text-white font-semibold hover:opacity-90 transition-all flex items-center gap-2 shadow-md">
+                                <i class="fas fa-envelope"></i> Contact Me
+                            </a>
+                            <a href="https://github.com/pervnandal" target="_blank" class="px-6 py-3.5 rounded-full glass-card text-foreground hover:border-chart-1 transition-all flex items-center gap-2">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                            <a href="https://www.linkedin.com/in/parvnandal" target="_blank" class="px-6 py-3.5 rounded-full glass-card text-foreground hover:border-chart-1 transition-all flex items-center gap-2">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold text-white mb-4">Machine Learning</h3>
-                    <p class="text-gray-400 mb-4 text-sm leading-relaxed">Developing predictive models, NLP solutions, and recommendation engines.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Scikit-Learn</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Keras/TF</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">PyTorch</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Pandas & NumPy</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">NLP</span>
+
+                    <!-- Right Column: Profile Image (self.jpeg) -->
+                    <div class="lg:w-2/5 flex justify-center lg:justify-end">
+                        <div class="relative w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 xl:w-96 xl:h-96 group">
+                            <div class="absolute inset-0 bg-chart-1 rounded-full blur-3xl opacity-25 group-hover:opacity-40 transition-opacity duration-500"></div>
+                            <img
+                                src="self.jpeg"
+                                alt="Parv Nandal"
+                                class="relative z-10 w-full h-full object-cover rounded-full border-4 border-border shadow-2xl transition-transform duration-500 group-hover:scale-105 group-hover:border-chart-1"
+                                onerror="this.src='https://placehold.co/400x400/1C1C1C/F26A4B?text=Parv+Nandal'"
+                            />
+                        </div>
                     </div>
                 </div>
 
-                <!-- Skill Category 2 -->
-                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-12 h-12 bg-green-500/20 text-green-400 rounded-lg flex items-center justify-center text-2xl mb-6">
-                        <i class="fas fa-code"></i>
+                <!-- 01 / About Me Pillar Cards -->
+                <div class="mt-16 pt-10 border-t border-border/80">
+                    <div class="inline-flex items-center gap-2 text-chart-1 font-mono text-xs uppercase tracking-widest mb-6">
+                        <span class="w-2 h-2 rounded-full bg-chart-1"></span>
+                        <span>01 / About &amp; Core Strengths</span>
                     </div>
-                    <h3 class="text-xl font-semibold text-white mb-4">Development</h3>
-                    <p class="text-gray-400 mb-4 text-sm leading-relaxed">Building scalable backend services and interactive frontends for ML models.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Python</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Streamlit</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Flask</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">FastAPI</span>
-                    </div>
-                </div>
-
-                <!-- Skill Category 3 -->
-                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-12 h-12 bg-orange-500/20 text-orange-400 rounded-lg flex items-center justify-center text-2xl mb-6">
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-4">Cloud & DevOps</h3>
-                    <p class="text-gray-400 mb-4 text-sm leading-relaxed">Deploying applications, managing pipelines, and version control efficiently.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">AWS</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Azure</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Docker</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">Git & GitHub</span>
-                        <span class="px-3 py-1 bg-brand-900/50 border border-brand-500/30 text-brand-300 text-xs rounded-full">CI/CD</span>
-                        <span class="px-3 py-1 bg-brand-900/50 border border-brand-500/30 text-brand-300 text-xs rounded-full">Data Versioning</span>
-                    </div>
-                </div>
-
-                <!-- Skill Category 4 -->
-                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-lg flex items-center justify-center text-2xl mb-6">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-4">Databases</h3>
-                    <p class="text-gray-400 mb-4 text-sm leading-relaxed">Designing, managing, and querying relational and NoSQL databases.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">PostgreSQL</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">MongoDB</span>
-                        <span class="px-3 py-1 bg-gray-800 text-gray-300 text-xs rounded-full">SQL</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Major Projects Section -->
-        <section id="projects" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <div class="mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Major Projects</h2>
-                <div class="h-1 w-20 bg-brand-500 rounded-full mb-6"></div>
-                <p class="text-gray-400 max-w-2xl">Showcasing complex, end-to-end applications demonstrating machine learning architecture and deployment.</p>
-            </div>
-
-            <div class="space-y-12">
-                <!-- Project 1: Loan Prediction (Promoted to sole Major Project) -->
-                <div class="glass-card rounded-2xl p-6 md:p-10 border border-gray-700/50 hover:border-brand-500/30 transition-colors">
-                    <div class="flex flex-col lg:flex-row-reverse gap-8">
-                        <div class="lg:w-2/3 flex flex-col justify-center">
-                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Dual-Model Loan Prediction Architecture</h3>
-                            <p class="text-gray-300 mb-6 leading-relaxed">
-                                A robust predictive analytics pipeline designed to automate and improve the accuracy of loan approval processes. This project implements a 2-model Machine Learning architecture, handling complex financial datasets through rigorous preprocessing, feature engineering, and model optimization to deliver reliable approval predictions.
-                            </p>
-                            
-                            <!-- Cloud Notification -->
-                            <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 mb-6 flex gap-3 text-sm text-blue-200">
-                                <i class="fas fa-info-circle text-blue-400 text-lg flex-shrink-0 mt-0.5"></i>
-                                <p><strong>Deployment Note:</strong> Originally deployed on an AWS EC2 instance. The instance is currently terminated to manage cloud costs, but configuring the server and learning cloud deployment was a fantastic hands-on experience!</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="glass-card p-6 rounded-2xl">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="w-9 h-9 rounded-lg bg-chart-1/15 text-chart-1 flex items-center justify-center">
+                                    <i class="fas fa-microchip"></i>
+                                </span>
+                                <h3 class="font-bold text-foreground">End-to-End ML Engineering</h3>
                             </div>
+                            <p class="text-sm text-muted-foreground leading-relaxed">
+                                Designing modular, production-grade pipelines from data ingestion and validation to model training and evaluation.
+                            </p>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="w-9 h-9 rounded-lg bg-chart-1/15 text-chart-1 flex items-center justify-center">
+                                    <i class="fas fa-diagram-project"></i>
+                                </span>
+                                <h3 class="font-bold text-foreground">GenAI &amp; Agentic Workflows</h3>
+                            </div>
+                            <p class="text-sm text-muted-foreground leading-relaxed">
+                                Building stateful LLM applications and semantic retrieval systems using LangChain, LangGraph, LCEL, and VectorDBs.
+                            </p>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="w-9 h-9 rounded-lg bg-chart-1/15 text-chart-1 flex items-center justify-center">
+                                    <i class="fas fa-cloud-bolt"></i>
+                                </span>
+                                <h3 class="font-bold text-foreground">MLOps &amp; Cloud Deployment</h3>
+                            </div>
+                            <p class="text-sm text-muted-foreground leading-relaxed">
+                                Tracking experiments and data versions with MLflow, DVC, and DagsHub, and deploying containerized services on AWS &amp; Azure.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                            <div class="mb-8">
-                                <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Tech Stack</h4>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fab fa-python text-green-400 mr-2"></i>Python</span>
-                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-chart-line text-green-400 mr-2"></i>Scikit-Learn</span>
-                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fas fa-project-diagram text-green-400 mr-2"></i>Ensemble Methods</span>
-                                    <span class="px-3 py-1 bg-dark-900 border border-gray-700 text-gray-300 text-sm rounded-md"><i class="fab fa-aws text-green-400 mr-2"></i>AWS EC2</span>
+        <section id="skills" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 border-b border-border pb-6 gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 text-chart-1 font-mono text-xs uppercase tracking-widest mb-2">
+                        <span class="w-2 h-2 rounded-full bg-chart-1"></span>
+                        <span>02 / Architecture & Stack</span>
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight font-serif">Technical Expertise</h2>
+                </div>
+                <!-- Interactive Filter Tabs for the Skill Gallery -->
+                <div class="flex flex-wrap gap-1.5 font-mono text-xs" id="skill-filter-bar">
+                    <button data-filter="all" class="skill-filter-btn px-3 py-1.5 rounded-md bg-chart-1 text-white font-semibold transition-all">All Nodes (26)</button>
+                    <button data-filter="ml-dl" class="skill-filter-btn px-3 py-1.5 rounded-md bg-secondary text-secondary-foreground hover:bg-accent transition-all">ML & DL</button>
+                    <button data-filter="genai" class="skill-filter-btn px-3 py-1.5 rounded-md bg-secondary text-secondary-foreground hover:bg-accent transition-all">GenAI / LLM</button>
+                    <button data-filter="backend" class="skill-filter-btn px-3 py-1.5 rounded-md bg-secondary text-secondary-foreground hover:bg-accent transition-all">Backend</button>
+                    <button data-filter="mlops" class="skill-filter-btn px-3 py-1.5 rounded-md bg-secondary text-secondary-foreground hover:bg-accent transition-all">MLOps & Cloud</button>
+                    <button data-filter="data" class="skill-filter-btn px-3 py-1.5 rounded-md bg-secondary text-secondary-foreground hover:bg-accent transition-all">Databases</button>
+                </div>
+            </div>
+
+            <!-- Bento Morph Grid Layout -->
+            <div id="skills-bento-grid" class="grid grid-cols-1 md:grid-cols-6 gap-6">
+
+                <!-- Category 1: Machine Learning & Deep Learning (Spans 4 columns on desktop) -->
+                <article data-category="ml-dl" class="skill-morph-card md:col-span-4 p-7 md:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-3">
+                                <span class="w-11 h-11 rounded-xl bg-chart-1/15 border border-chart-1/40 text-chart-1 flex items-center justify-center text-lg">
+                                    <i class="fas fa-brain"></i>
+                                </span>
+                                <div>
+                                    <span class="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Node 01 // Core Intelligence</span>
+                                    <h3 class="text-xl md:text-2xl font-bold text-foreground">Machine Learning & Deep Learning</h3>
                                 </div>
                             </div>
-                            
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-accent text-accent-foreground border border-border">6 Modules</span>
+                        </div>
+                        <p class="text-muted-foreground text-sm md:text-base mb-6 leading-relaxed">
+                            Core statistical modeling, deep neural architectures, sequence-to-sequence attention mechanisms, and natural language processing.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2.5 pt-4 border-t border-border/70">
+                        <span class="skill-pill"><i class="fas fa-project-diagram text-chart-1"></i> Supervised Learning</span>
+                        <span class="skill-pill"><i class="fas fa-sitemap text-chart-1"></i> Unsupervised Learning</span>
+                        <span class="skill-pill"><i class="fas fa-fire text-chart-1"></i> PyTorch</span>
+                        <span class="skill-pill"><i class="fas fa-layer-group text-chart-1"></i> Keras / TF</span>
+                        <span class="skill-pill"><i class="fas fa-language text-chart-1"></i> Natural Language Processing (NLP)</span>
+                        <span class="skill-pill"><i class="fas fa-microchip text-chart-1"></i> Transformers</span>
+                    </div>
+                </article>
+
+                <!-- Category 2: GenAI & LLM Orchestration (Spans 2 columns on desktop) -->
+                <article data-category="genai" class="skill-morph-card md:col-span-2 p-7 md:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="w-11 h-11 rounded-xl bg-chart-1/15 border border-chart-1/40 text-chart-1 flex items-center justify-center text-lg">
+                                <i class="fas fa-robot"></i>
+                            </span>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-accent text-accent-foreground border border-border">Agentic AI</span>
+                        </div>
+                        <span class="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Node 02 // Cognitive Graph</span>
+                        <h3 class="text-xl md:text-2xl font-bold text-foreground mb-3">GenAI & LLM Orchestration</h3>
+                        <p class="text-muted-foreground text-sm mb-6 leading-relaxed">
+                            Multi-agent workflows, stateful graph orchestration, declarative chains, and high-dimensional semantic retrieval.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-4 border-t border-border/70">
+                        <span class="skill-pill"><i class="fas fa-link text-chart-1"></i> LangChain</span>
+                        <span class="skill-pill"><i class="fas fa-diagram-project text-chart-1"></i> LangGraph</span>
+                        <span class="skill-pill"><i class="fas fa-terminal text-chart-1"></i> LCEL</span>
+                        <span class="skill-pill"><i class="fas fa-cubes-stacked text-chart-1"></i> VectorDB</span>
+                    </div>
+                </article>
+
+                <!-- Category 3: Software & Backend Engineering (Spans 2 columns on desktop) -->
+                <article data-category="backend" class="skill-morph-card md:col-span-2 p-7 md:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="w-11 h-11 rounded-xl bg-chart-1/15 border border-chart-1/40 text-chart-1 flex items-center justify-center text-lg">
+                                <i class="fas fa-code"></i>
+                            </span>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-accent text-accent-foreground border border-border">Production APIs</span>
+                        </div>
+                        <span class="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Node 03 // Application Layer</span>
+                        <h3 class="text-xl md:text-2xl font-bold text-foreground mb-3">Software & Backend Engineering</h3>
+                        <p class="text-muted-foreground text-sm mb-6 leading-relaxed">
+                            Writing clean, modular production code, strict schema validation, and high-throughput REST microservices.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-4 border-t border-border/70">
+                        <span class="skill-pill"><i class="fab fa-python text-chart-1"></i> Python</span>
+                        <span class="skill-pill"><i class="fas fa-cube text-chart-1"></i> Modular Programming</span>
+                        <span class="skill-pill"><i class="fas fa-bolt text-chart-1"></i> FastAPI</span>
+                        <span class="skill-pill"><i class="fas fa-flask text-chart-1"></i> Flask</span>
+                        <span class="skill-pill"><i class="fas fa-window-maximize text-chart-1"></i> Streamlit</span>
+                        <span class="skill-pill"><i class="fas fa-shield-halved text-chart-1"></i> Pydantic</span>
+                    </div>
+                </article>
+
+                <!-- Category 4: MLOps, Cloud & DevOps (Spans 4 columns on desktop) -->
+                <article data-category="mlops" class="skill-morph-card md:col-span-4 p-7 md:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-3">
+                                <span class="w-11 h-11 rounded-xl bg-chart-1/15 border border-chart-1/40 text-chart-1 flex items-center justify-center text-lg">
+                                    <i class="fas fa-cloud-arrow-up"></i>
+                                </span>
+                                <div>
+                                    <span class="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Node 04 // Lifecycle & Automation</span>
+                                    <h3 class="text-xl md:text-2xl font-bold text-foreground">MLOps, Cloud & DevOps</h3>
+                                </div>
+                            </div>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-accent text-accent-foreground border border-border">9 Modules</span>
+                        </div>
+                        <p class="text-muted-foreground text-sm md:text-base mb-6 leading-relaxed">
+                            Industrializing ML pipelines with automated experiment tracking, reproducible data versioning, containerized microservices, and CI/CD cloud deployments.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2.5 pt-4 border-t border-border/70">
+                        <span class="skill-pill"><i class="fas fa-chart-line text-chart-1"></i> MLflow</span>
+                        <span class="skill-pill"><i class="fas fa-code-branch text-chart-1"></i> DVC (Data Version Control)</span>
+                        <span class="skill-pill"><i class="fas fa-circle-nodes text-chart-1"></i> DagsHub</span>
+                        <span class="skill-pill"><i class="fas fa-gears text-chart-1"></i> CI/CD</span>
+                        <span class="skill-pill"><i class="fab fa-github text-chart-1"></i> GitHub Actions</span>
+                        <span class="skill-pill"><i class="fab fa-docker text-chart-1"></i> Docker</span>
+                        <span class="skill-pill"><i class="fab fa-git-alt text-chart-1"></i> Git & GitHub</span>
+                        <span class="skill-pill"><i class="fab fa-aws text-chart-1"></i> AWS</span>
+                        <span class="skill-pill"><i class="fab fa-microsoft text-chart-1"></i> Azure</span>
+                    </div>
+                </article>
+
+                <!-- Category 5: Data Infrastructure & Databases (Spans full 6 columns as sleek horizontal bar) -->
+                <article data-category="data" class="skill-morph-card md:col-span-6 p-7 md:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6 group">
+                    <div class="flex items-start sm:items-center gap-4">
+                        <span class="w-12 h-12 rounded-xl bg-chart-1/15 border border-chart-1/40 text-chart-1 flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-database"></i>
+                        </span>
+                        <div>
+                            <span class="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Node 05 // Persistence & Storage</span>
+                            <h3 class="text-xl md:text-2xl font-bold text-foreground">Data Infrastructure & Databases</h3>
+                            <p class="text-muted-foreground text-sm mt-1">
+                                Designing, querying, and scaling structured relational schemas alongside high-throughput NoSQL document stores for ETL pipelines.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2.5 shrink-0">
+                        <span class="skill-pill"><i class="fas fa-table text-chart-1"></i> SQL (Relational)</span>
+                        <span class="skill-pill"><i class="fas fa-server text-chart-1"></i> PostgreSQL</span>
+                        <span class="skill-pill"><i class="fas fa-file-code text-chart-1"></i> NoSQL</span>
+                        <span class="skill-pill"><i class="fas fa-leaf text-chart-1"></i> MongoDB</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="projects" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div class="mb-16 border-b border-border pb-6">
+                <div class="inline-flex items-center gap-2 text-chart-1 font-mono text-xs uppercase tracking-widest mb-2">
+                    <span class="w-2 h-2 rounded-full bg-chart-1"></span>
+                    <span>03 / Production Architectures</span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight font-serif">Major Flagship Projects</h2>
+                <p class="text-muted-foreground mt-2 max-w-2xl text-sm md:text-base">
+                    End-to-end industry-grade machine learning pipelines featuring modular coding, ETL data engineering, experiment tracking, and cloud deployment.
+                </p>
+            </div>
+
+            <div class="space-y-16">
+                <!-- Task 4: Project 1 — Network Security System (Placed ABOVE Loan Approval Project) -->
+                <article class="glass-card rounded-2xl p-6 md:p-10 overflow-hidden relative group">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <!-- Project Details (7 Columns) -->
+                        <div class="lg:col-span-7 flex flex-col justify-center">
+                            <div class="flex flex-wrap items-center gap-2 mb-3">
+                                <span class="px-3 py-1 rounded-full bg-chart-1/15 text-chart-1 border border-chart-1/30 font-mono text-xs font-semibold">
+                                    <i class="fas fa-shield-halved mr-1.5"></i>Flagship MLOps Architecture
+                                </span>
+                                <span class="px-3 py-1 rounded-full bg-secondary text-secondary-foreground font-mono text-xs border border-border">
+                                    phishing.csv Dataset
+                                </span>
+                            </div>
+
+                            <h3 class="text-2xl md:text-3xl font-bold text-foreground mb-4 group-hover:text-chart-1 transition-colors">
+                                Enterprise Network Security & Phishing Detection Pipeline
+                            </h3>
+
+                            <p class="text-muted-foreground mb-4 leading-relaxed text-sm md:text-base">
+                                An industry-grade, end-to-end machine learning system engineered to detect malicious phishing vectors and network security threats using the <code class="px-1.5 py-0.5 rounded bg-secondary text-foreground font-mono text-xs">phishing.csv</code> dataset. Architected from the ground up with strict <strong>modular programming</strong>, custom exception handling, and structured logging across every pipeline stage.
+                            </p>
+                            <p class="text-muted-foreground mb-6 leading-relaxed text-sm md:text-base">
+                                Features an automated <strong>ETL pipeline</strong> (Data Ingestion, Validation, and Transformation), full <strong>experiment tracking</strong> via MLflow & DagsHub, reproducible code and data versioning, and a complete <strong>CI/CD pipeline</strong> powered by GitHub Actions and Docker for automated <strong>AWS cloud deployment</strong>.
+                            </p>
+
+                            <!-- Tech Stack -->
+                            <div class="mb-7">
+                                <h4 class="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3">Architecture & Tech Stack</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="skill-pill"><i class="fab fa-python text-chart-1"></i> Python</span>
+                                    <span class="skill-pill"><i class="fas fa-cubes text-chart-1"></i> Modular Programming</span>
+                                    <span class="skill-pill"><i class="fas fa-arrows-rotate text-chart-1"></i> ETL Pipeline (MongoDB)</span>
+                                    <span class="skill-pill"><i class="fas fa-chart-Simple text-chart-1"></i> MLflow & DagsHub</span>
+                                    <span class="skill-pill"><i class="fas fa-bug-slash text-chart-1"></i> Custom Exception & Logging</span>
+                                    <span class="skill-pill"><i class="fab fa-github text-chart-1"></i> GitHub Actions CI/CD</span>
+                                    <span class="skill-pill"><i class="fab fa-docker text-chart-1"></i> Docker</span>
+                                    <span class="skill-pill"><i class="fab fa-aws text-chart-1"></i> AWS Deployment</span>
+                                    <span class="skill-pill"><i class="fas fa-bolt text-chart-1"></i> FastAPI</span>
+                                </div>
+                            </div>
+
+                            <!-- Action Links -->
                             <div class="flex flex-wrap items-center gap-4 mt-auto">
-                                <a href="https://github.com/pervnandal/LoanApprovalProjectUDSC.git" target="_blank" class="px-6 py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors flex items-center gap-2 font-medium border border-gray-600">
-                                    <i class="fab fa-github"></i> View Repository
+                                <a href="https://github.com/pervnandal/Network-security.git" target="_blank" class="px-6 py-3 rounded-xl bg-primary text-primary-foreground hover:bg-chart-1 hover:text-white font-mono text-xs md:text-sm font-semibold transition-all flex items-center gap-2 shadow-md">
+                                    <i class="fab fa-github text-base"></i> View Source & MLOps Pipeline
                                 </a>
                             </div>
                         </div>
-                        <div class="lg:w-1/3 flex items-center justify-center">
-                            <!-- Visual placeholder for project -->
-                            <div class="w-full aspect-video lg:aspect-square bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700 flex flex-col items-center justify-center text-green-500/50 shadow-inner">
-                                <i class="fas fa-hand-holding-usd text-6xl mb-4"></i>
-                                <span class="font-medium tracking-widest text-sm text-gray-500">PREDICTIVE ML</span>
+
+                        <!-- Task 5: Project-Specific Contextual Visual Preview (5 Columns) -->
+                        <div class="lg:col-span-5">
+                            <div class="relative rounded-xl overflow-hidden border border-border bg-card shadow-2xl group/img aspect-[16/11]">
+                                <img
+                                    src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80"
+                                    alt="Enterprise Network Security & Phishing Threat Matrix"
+                                    class="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-700"
+                                    onerror="this.src='https://placehold.co/800x550/1C1C1C/F26A4B?text=Network+Security+MLOps'"
+                                />
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent"></div>
+
+                                <!-- Live Telemetry Overlay Badge -->
+                                <div class="absolute top-3 left-3 right-3 flex items-center justify-between text-[11px] font-mono text-white/90 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/15">
+                                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>ETL_INGEST: ACTIVE</span>
+                                    <span class="text-chart-1">MLflow Tracked</span>
+                                </div>
+
+                                <!-- Bottom Architecture Overlay -->
+                                <div class="absolute bottom-3 left-3 right-3 p-3.5 rounded-lg bg-black/75 backdrop-blur-md border border-white/10 text-white font-mono">
+                                    <div class="flex items-center justify-between text-xs mb-1">
+                                        <span class="font-bold text-chart-1">phishing.csv &rarr; Classifier</span>
+                                        <span class="text-emerald-400">AWS CI/CD</span>
+                                    </div>
+                                    <div class="w-full bg-white/15 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-chart-1 h-full w-[97%]"></div>
+                                    </div>
+                                    <p class="text-[10px] text-gray-300 mt-1.5"> Ingestion &bull; Validation &bull; Drift Check &bull; Model Registry</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </article>
+
+                <!-- Project 2: Dual-Model Loan Prediction Architecture -->
+                <article class="glass-card rounded-2xl p-6 md:p-10 overflow-hidden relative group">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <!-- Task 5: Project-Specific Contextual Visual Preview (5 Columns on left for alternating layout) -->
+                        <div class="lg:col-span-5 order-2 lg:order-1">
+                            <div class="relative rounded-xl overflow-hidden border border-border bg-card shadow-2xl group/img aspect-[16/11]">
+                                <img
+                                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80"
+                                    alt="Dual-Model Financial Loan Prediction Analytics Dashboard"
+                                    class="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-700"
+                                    onerror="this.src='https://placehold.co/800x550/1C1C1C/F26A4B?text=Loan+Prediction+ML'"
+                                />
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+
+                                <div class="absolute top-3 left-3 right-3 flex items-center justify-between text-[11px] font-mono text-white/90 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/15">
+                                    <span>2-MODEL ENSEMBLE</span>
+                                    <span class="text-amber-400"><i class="fab fa-aws mr-1"></i>EC2 Cloud Node</span>
+                                </div>
+
+                                <div class="absolute bottom-3 left-3 right-3 p-3.5 rounded-lg bg-black/75 backdrop-blur-md border border-white/10 text-white font-mono">
+                                    <div class="flex items-center justify-between text-xs mb-1">
+                                        <span class="font-bold text-chart-1">Credit Risk & Eligibility Engine</span>
+                                        <span class="text-white/80">2-Stage Pipeline</span>
+                                    </div>
+                                    <p class="text-[10px] text-gray-300">Feature Engineering &bull; Ensemble Voting &bull; EC2 Server</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Details (7 Columns) -->
+                        <div class="lg:col-span-7 flex flex-col justify-center order-1 lg:order-2">
+                            <div class="flex flex-wrap items-center gap-2 mb-3">
+                                <span class="px-3 py-1 rounded-full bg-chart-1/15 text-chart-1 border border-chart-1/30 font-mono text-xs font-semibold">
+                                    <i class="fas fa-Scale-balanced mr-1.5"></i>Predictive Financial ML
+                                </span>
+                                <span class="px-3 py-1 rounded-full bg-secondary text-secondary-foreground font-mono text-xs border border-border">
+                                    Dual-Model Ensemble
+                                </span>
+                            </div>
+
+                            <h3 class="text-2xl md:text-3xl font-bold text-foreground mb-4 group-hover:text-chart-1 transition-colors">
+                                Dual-Model Loan Prediction Architecture
+                            </h3>
+
+                            <p class="text-muted-foreground mb-5 leading-relaxed text-sm md:text-base">
+                                A robust predictive analytics pipeline designed to automate and improve the accuracy of loan approval processes. This project implements a 2-model Machine Learning architecture, handling complex financial datasets through rigorous preprocessing, feature engineering, and model optimization to deliver reliable approval predictions.
+                            </p>
+
+                            <!-- AWS EC2 Deployment Note -->
+                            <div class="bg-secondary/90 border-l-4 border-chart-1 rounded-r-xl p-4 mb-6 flex gap-3 text-xs md:text-sm text-secondary-foreground font-mono">
+                                <i class="fas fa-cloud text-chart-1 text-base mt-0.5 shrink-0"></i>
+                                <p>
+                                    <strong>Deployment Note:</strong> Originally deployed on an AWS EC2 instance. The instance is currently terminated to manage cloud costs, but configuring the server and learning cloud deployment was a fantastic hands-on experience!
+                                </p>
+                            </div>
+
+                            <!-- Tech Stack -->
+                            <div class="mb-7">
+                                <h4 class="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3">Architecture & Tech Stack</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="skill-pill"><i class="fab fa-python text-chart-1"></i> Python</span>
+                                    <span class="skill-pill"><i class="fas fa-chart-line text-chart-1"></i> Scikit-Learn</span>
+                                    <span class="skill-pill"><i class="fas fa-project-diagram text-chart-1"></i> 2-Model Architecture</span>
+                                    <span class="skill-pill"><i class="fas fa-sliders text-chart-1"></i> Feature Engineering</span>
+                                    <span class="skill-pill"><i class="fab fa-aws text-chart-1"></i> AWS EC2</span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-4 mt-auto">
+                                <a href="https://github.com/pervnandal/LoanApprovalProjectUDSC.git" target="_blank" class="px-6 py-3 rounded-xl bg-primary text-primary-foreground hover:bg-chart-1 hover:text-white font-mono text-xs md:text-sm font-semibold transition-all flex items-center gap-2 shadow-md">
+                                    <i class="fab fa-github text-base"></i> View Repository
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
             </div>
         </section>
 
-        <!-- Toy Projects Section -->
-        <section id="toy-projects" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <div class="mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Toy & Learning Projects</h2>
-                <div class="h-1 w-20 bg-brand-500 rounded-full mb-6"></div>
-                <p class="text-gray-400 max-w-2xl">Smaller-scale projects built while experimenting with new libraries, algorithms, and concepts.</p>
+        <section id="toy-projects" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div class="mb-14 border-b border-border pb-6">
+                <div class="inline-flex items-center gap-2 text-chart-1 font-mono text-xs uppercase tracking-widest mb-2">
+                    <span class="w-2 h-2 rounded-full bg-chart-1"></span>
+                    <span>04 / Applied Explorations</span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight font-serif">Toy & Learning Projects</h2>
+                <p class="text-muted-foreground mt-2 max-w-2xl text-sm md:text-base">
+                    Focused implementations built while experimenting with NLP vectorization, similarity matrices, and modular MLOps lifecycles.
+                </p>
             </div>
-            
-            <div id="toy-projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
                 <!-- Toy Project 1: SMS Spam Classification -->
-                <div class="glass-card rounded-xl border border-gray-800 hover:border-brand-500/50 transition-colors flex flex-col overflow-hidden">
-                    <div class="h-32 bg-gray-800 flex items-center justify-center relative overflow-hidden group">
-                        <!-- Abstract Background for visual interest -->
-                        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] group-hover:scale-110 transition-transform duration-500"></div>
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 to-gray-900/90"></div>
-                        <i class="fas fa-envelope-open-text text-4xl text-blue-400 relative z-10 drop-shadow-md"></i>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-lg font-bold text-white mb-2">SMS Spam Classification</h3>
-                        <p class="text-sm text-gray-400 mb-4 flex-1">
-                            An NLP-based machine learning model that accurately classifies SMS messages as spam or ham (legitimate). Utilizes text vectorization and deployed via a responsive interface.
-                        </p>
-                        <div class="mb-4">
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Python</span>
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Scikit-Learn</span>
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">NLP</span>
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Streamlit</span>
-                            </div>
+                <article class="glass-card rounded-2xl overflow-hidden flex flex-col group">
+                    <!-- Task 5 Contextual Image -->
+                    <div class="h-48 relative overflow-hidden bg-secondary">
+                        <img
+                            src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
+                            alt="SMS Spam Classification NLP Matrix"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            onerror="this.src='https://placehold.co/600x360/1C1C1C/F26A4B?text=SMS+Spam+NLP'"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-black/70 text-chart-1 font-mono text-[11px] border border-white/10">
+                            NLP Classifier
+                        </span>
+                        <div class="absolute bottom-3 left-3 text-white font-mono text-xs flex items-center gap-2">
+                            <i class="fas fa-envelope-open-text text-chart-1"></i>
+                            <span>TF-IDF Vectorizer + Naive Bayes</span>
                         </div>
-                        <div class="flex items-center gap-3 mt-auto pt-4 border-t border-gray-800">
-                            <a href="https://sms-classification-new.streamlit.app" target="_blank" class="text-sm text-brand-400 hover:text-brand-300 transition-colors flex items-center gap-1 font-medium">
+                    </div>
+
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-xl font-bold text-foreground mb-2 group-hover:text-chart-1 transition-colors">
+                            SMS Spam Classification
+                        </h3>
+                        <p class="text-sm text-muted-foreground mb-5 flex-1 leading-relaxed">
+                            An NLP-based machine learning model that accurately classifies SMS messages as spam or ham (legitimate). Utilizes text preprocessing, tokenization, and vectorization deployed via an interactive Streamlit interface.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mb-5">
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">Python</span>
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">Scikit-Learn</span>
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">NLP</span>
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">Streamlit</span>
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-border font-mono text-xs">
+                            <a href="https://sms-classification-new.streamlit.app" target="_blank" class="text-chart-1 hover:underline font-semibold flex items-center gap-1.5">
                                 <i class="fas fa-external-link-alt"></i> Live App
                             </a>
-                            <span class="text-gray-700">|</span>
-                            <a href="https://github.com/pervnandal/sms-classification.git" target="_blank" class="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1 font-medium">
+                            <a href="https://github.com/pervnandal/sms-classification.git" target="_blank" class="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
                                 <i class="fab fa-github"></i> Source Code
                             </a>
                         </div>
                     </div>
-                </div>
+                </article>
 
                 <!-- Toy Project 2: Movie Recommendation System -->
-                <div class="glass-card rounded-xl border border-gray-800 hover:border-brand-500/50 transition-colors flex flex-col overflow-hidden">
-                    <div class="h-32 bg-gray-800 flex items-center justify-center relative overflow-hidden group">
-                        <!-- Abstract Background for visual interest -->
-                        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] group-hover:scale-110 transition-transform duration-500"></div>
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 to-gray-900/90"></div>
-                        <i class="fas fa-film text-4xl text-blue-400 relative z-10 drop-shadow-md"></i>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-lg font-bold text-white mb-2">Movie Recommendation</h3>
-                        <p class="text-sm text-gray-400 mb-4 flex-1">
-                            A content-based recommendation engine leveraging TMDB API and Cosine Similarity to suggest similar movies instantly.
-                        </p>
-                        <div class="mb-4">
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Python</span>
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">TMDB API</span>
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Streamlit</span>
-                            </div>
+                <article class="glass-card rounded-2xl overflow-hidden flex flex-col group">
+                    <!-- Task 5 Contextual Image -->
+                    <div class="h-48 relative overflow-hidden bg-secondary">
+                        <img
+                            src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80"
+                            alt="Movie Recommendation System Cinema Analytics"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            onerror="this.src='https://placehold.co/600x360/1C1C1C/F26A4B?text=Movie+Recommender'"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-black/70 text-chart-1 font-mono text-[11px] border border-white/10">
+                            Cosine Similarity
+                        </span>
+                        <div class="absolute bottom-3 left-3 text-white font-mono text-xs flex items-center gap-2">
+                            <i class="fas fa-film text-chart-1"></i>
+                            <span>TMDB Metadata Vector Space</span>
                         </div>
-                        <div class="flex items-center gap-3 mt-auto pt-4 border-t border-gray-800">
-                            <a href="https://recommendkaromovie.streamlit.app" target="_blank" class="text-sm text-brand-400 hover:text-brand-300 transition-colors flex items-center gap-1 font-medium">
+                    </div>
+
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-xl font-bold text-foreground mb-2 group-hover:text-chart-1 transition-colors">
+                            Movie Recommendation System
+                        </h3>
+                        <p class="text-sm text-muted-foreground mb-5 flex-1 leading-relaxed">
+                            Content-based recommendation engine leveraging the TMDB API and dataset to compute a mathematical Cosine Similarity matrix, instantly recommending the 5 closest films with poster metadata.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mb-5">
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">Python</span>
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">TMDB API</span>
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">Cosine Similarity</span>
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">Streamlit</span>
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">Pandas</span>
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-border font-mono text-xs">
+                            <a href="https://recommendkaromovie.streamlit.app" target="_blank" class="text-chart-1 hover:underline font-semibold flex items-center gap-1.5">
                                 <i class="fas fa-external-link-alt"></i> Live App
                             </a>
-                            <span class="text-gray-700">|</span>
-                            <a href="https://github.com/pervnandal/Movierecommendkaro.git" target="_blank" class="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1 font-medium">
+                            <a href="https://github.com/pervnandal/Movierecommendkaro.git" target="_blank" class="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
                                 <i class="fab fa-github"></i> Source Code
                             </a>
                         </div>
                     </div>
-                </div>
+                </article>
 
-                <!-- Toy Project 3: End-to-End ML Pipeline -->
-                <div class="glass-card rounded-xl border border-gray-800 hover:border-brand-500/50 transition-colors flex flex-col overflow-hidden">
-                    <div class="h-32 bg-gray-800 flex items-center justify-center relative overflow-hidden group">
-                        <!-- Abstract Background for visual interest -->
-                        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] group-hover:scale-110 transition-transform duration-500"></div>
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 to-gray-900/90"></div>
-                        <i class="fas fa-project-diagram text-4xl text-blue-400 relative z-10 drop-shadow-md"></i>
+                <!-- Toy Project 3: End-to-End ML Lifecycle & MLOps -->
+                <article class="glass-card rounded-2xl overflow-hidden flex flex-col group">
+                    <!-- Task 5 Contextual Image -->
+                    <div class="h-48 relative overflow-hidden bg-secondary">
+                        <img
+                            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80"
+                            alt="End-to-End MLOps Lifecycle Server Pipeline"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            onerror="this.src='https://placehold.co/600x360/1C1C1C/F26A4B?text=MLOps+Pipeline'"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-black/70 text-chart-1 font-mono text-[11px] border border-white/10">
+                            MLOps Lifecycle
+                        </span>
+                        <div class="absolute bottom-3 left-3 text-white font-mono text-xs flex items-center gap-2">
+                            <i class="fas fa-code-branch text-chart-1"></i>
+                            <span>Modular Pipeline + DagsHub</span>
+                        </div>
                     </div>
+
                     <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-lg font-bold text-white mb-2">End-to-End ML Pipeline</h3>
-                        <p class="text-sm text-gray-400 mb-4 flex-1">
-                            An industry-level project built to understand the complete ML lifecycle. Focuses heavily on MLOps, modular coding, version control, and data pipeline management.
+                        <h3 class="text-xl font-bold text-foreground mb-2 group-hover:text-chart-1 transition-colors">
+                            End-to-End ML Lifecycle & MLOps Pipeline
+                        </h3>
+                        <p class="text-sm text-muted-foreground mb-5 flex-1 leading-relaxed">
+                            Built to master the complete industry-level ML project lifecycle—focusing on modular coding standards, Git code control, data & experiment tracking with DagsHub, and serving via a Flask web interface.
                         </p>
-                        <div class="mb-4">
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Python</span>
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Scikit-Learn</span>
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Flask</span>
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">Git</span>
-                                <span class="px-2 py-1 bg-gray-800 text-gray-300 text-[10px] uppercase tracking-wider rounded">DagsHub</span>
-                            </div>
+                        <div class="flex flex-wrap gap-1.5 mb-5">
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">Python</span>
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">Scikit-Learn</span>
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">Flask</span>
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">Git</span>
+                            <span class="px-2.5 py-1 bg-secondary text-secondary-foreground font-mono text-[11px] rounded border border-border">DagsHub</span>
                         </div>
-                        <div class="flex items-center gap-3 mt-auto pt-4 border-t border-gray-800">
-                            <a href="https://github.com/pervnandal/datascienceproject.git" target="_blank" class="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1 font-medium">
-                                <i class="fab fa-github"></i> Source Code
+                        <div class="flex items-center justify-between pt-4 border-t border-border font-mono text-xs">
+                            <span class="text-muted-foreground">Modular Architecture</span>
+                            <a href="https://github.com/pervnandal/datascienceproject.git" target="_blank" class="text-chart-1 hover:underline font-semibold flex items-center gap-1.5">
+                                <i class="fab fa-github"></i> View Repository
                             </a>
                         </div>
                     </div>
-                </div>
+                </article>
 
             </div>
         </section>
 
-        <!-- Resume Call to Action -->
-        <section id="resume" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 mb-20">
-            <div class="bg-gradient-to-r from-brand-900/40 to-indigo-900/40 border border-brand-500/30 rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-brand-500/20 rounded-full blur-3xl"></div>
-                <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl"></div>
-                
+        <!-- Resume Call to Action Section -->
+        <section id="resume" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 my-20">
+            <div class="glass-card rounded-3xl p-10 md:p-16 text-center relative overflow-hidden border border-chart-1/40">
+                <div class="absolute -top-20 -right-20 w-64 h-64 bg-chart-1/15 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-chart-1/10 rounded-full blur-3xl pointer-events-none"></div>
+
                 <div class="relative z-10">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Want to know more about my experience?</h2>
-                    <p class="text-gray-300 mb-8 max-w-2xl mx-auto text-lg">
-                        You can download my full resume to get a detailed overview of my education, technical skills, and all the projects I've worked on.
+                    <span class="px-3.5 py-1 rounded-full bg-chart-1/15 text-chart-1 font-mono text-xs uppercase tracking-widest border border-chart-1/30">
+                        Curriculum Vitae
+                    </span>
+                    <h2 class="text-3xl md:text-5xl font-bold text-foreground mt-4 mb-5 font-serif">
+                        Want to explore my full experience?
+                    </h2>
+                    <p class="text-muted-foreground mb-8 max-w-2xl mx-auto text-base md:text-lg">
+                        Download my complete resume for a detailed breakdown of my academic background, MLOps architectures, and technical proficiencies.
                     </p>
-                    <!-- Resume Link in Call To Action -->
-                    <a href="Nandal,Parv-resume.pdf" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full transition-all hover:scale-105 shadow-[0_0_20px_rgba(2,132,199,0.4)]">
-                        <i class="fas fa-download"></i> Download Resume (PDF)
-                    </a>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="Nandal,Parv-resume.pdf" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-chart-1 hover:opacity-95 text-white font-mono font-bold rounded-full transition-all hover:scale-105 shadow-lg">
+                            <i class="fas fa-download"></i> Download Resume (PDF)
+                        </a>
+                        <a href="mailto:nandalparv3002@gmail.com" class="inline-flex items-center gap-3 px-8 py-4 bg-secondary text-secondary-foreground hover:bg-accent font-mono font-semibold rounded-full border border-border transition-all">
+                            <i class="fas fa-envelope text-chart-1"></i> nandalparv3002@gmail.com
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
-        
+
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-white/10 bg-dark-900/50 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-            <p class="text-gray-500 text-sm mb-4 md:mb-0">
-                &copy; <script>document.write(new Date().getFullYear())</script> Parv Nandal. All rights reserved.
-            </p>
-            <div class="flex space-x-6">
-                <a href="mailto:nandalparv3002@gmail.com" class="text-gray-500 hover:text-white transition-colors">
-                    <i class="fas fa-envelope text-xl"></i>
+    <footer class="border-t border-border bg-card/80 backdrop-blur-md py-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <span class="font-mono font-bold text-foreground">Parv Nandal<span class="text-chart-1">.</span></span>
+                <span class="text-muted-foreground text-xs font-mono">
+                    &copy; <script>document.write(new Date().getFullYear())</script> All rights reserved.
+                </span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="mailto:nandalparv3002@gmail.com" class="text-muted-foreground hover:text-chart-1 transition-colors" title="Email">
+                    <i class="fas fa-envelope text-lg"></i>
                 </a>
-                <a href="https://github.com/pervnandal" target="_blank" class="text-gray-500 hover:text-white transition-colors">
-                    <i class="fab fa-github text-xl"></i>
+                <a href="https://github.com/pervnandal" target="_blank" class="text-muted-foreground hover:text-chart-1 transition-colors" title="GitHub">
+                    <i class="fab fa-github text-lg"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/parvnandal" target="_blank" class="text-gray-500 hover:text-white transition-colors">
-                    <i class="fab fa-linkedin text-xl"></i>
+                <a href="https://www.linkedin.com/in/parvnandal" target="_blank" class="text-muted-foreground hover:text-chart-1 transition-colors" title="LinkedIn">
+                    <i class="fab fa-linkedin text-lg"></i>
                 </a>
             </div>
         </div>
     </footer>
 
-    <!-- Interactive Scripts -->
     <script>
-        (function initSableAnimatedTopDock() {
-            const dockConfig = {
-                variant: 'sable',
+        // 0. Hero Typewriter Effect ("I build ...")
+        (function initTypewriter() {
+            const phrases = ["Predictive Models.", "Intelligent Systems.", "AI Agents.", "Data Pipelines."];
+            let currentPhrase = 0;
+            let isDeleting = false;
+            let text = '';
+            const typingElement = document.getElementById('typewriter');
+            if (!typingElement) return;
+
+            function type() {
+                const fullText = phrases[currentPhrase];
+                if (isDeleting) {
+                    text = fullText.substring(0, text.length - 1);
+                } else {
+                    text = fullText.substring(0, text.length + 1);
+                }
+
+                typingElement.textContent = text;
+
+                let typeSpeed = isDeleting ? 50 : 100;
+                if (!isDeleting && text === fullText) {
+                    typeSpeed = 2000;
+                    isDeleting = true;
+                } else if (isDeleting && text === '') {
+                    isDeleting = false;
+                    currentPhrase = (currentPhrase + 1) % phrases.length;
+                    typeSpeed = 500;
+                }
+                setTimeout(type, typeSpeed);
+            }
+
+            setTimeout(type, 500);
+        })();
+
+        // 1. Theme Switcher (:root vs .dark)
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        themeBtn.addEventListener('click', () => {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            themeIcon.className = isDark ? 'fas fa-sun text-sm' : 'fas fa-moon text-sm';
+        });
+
+        // 2. Sable Animated Top Dock Spring-Damper Controller + Active Section Scroll-Spy
+        // Parameters: proximity=122, spring=0.19, damping=0.70, widthGrowth=17, heightGrowth=16, drop=3.5
+        (function initSableTopDock() {
+            const dock = document.getElementById('sable-dock');
+            const items = Array.from(dock.querySelectorAll('[data-dock-item]'));
+            const sectionLinks = items.filter((el) => {
+                const href = el.getAttribute('href');
+                return href && href.startsWith('#');
+            });
+
+            const config = {
                 proximity: 122,
                 spring: 0.19,
                 damping: 0.70,
@@ -595,700 +1092,368 @@
                 drop: 3.5
             };
 
-            const dockEl = document.getElementById('sable-top-dock');
-            if (!dockEl) return;
-
-            const itemEls = Array.from(dockEl.querySelectorAll('[data-dock-item]'));
             let pointerX = -9999;
-            let pointerY = -9999;
-            let isPointerInsideBand = false;
+            let pointerInside = false;
+            let isClickScrolling = false;
+            let clickScrollTimer = null;
 
-            const itemsState = itemEls.map((el) => {
-                // Measure natural unscaled dimensions once on init
-                const isResume = el.classList.contains('sable-dock-item-resume');
-                const baseWidth = isResume ? 96 : 86;
-                const baseHeight = 36;
-                el.style.width = baseWidth + 'px';
-                el.style.height = baseHeight + 'px';
+            function setActiveDockLink(targetHref) {
+                sectionLinks.forEach((link) => {
+                    if (link.getAttribute('href') === targetHref) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
 
+            // Update active item immediately on click
+            sectionLinks.forEach((link) => {
+                link.addEventListener('click', () => {
+                    const href = link.getAttribute('href');
+                    setActiveDockLink(href);
+                    isClickScrolling = true;
+                    if (clickScrollTimer) clearTimeout(clickScrollTimer);
+                    clickScrollTimer = setTimeout(() => {
+                        isClickScrolling = false;
+                    }, 850);
+                });
+            });
+
+            // Update active item dynamically while scrolling through sections
+            const trackedSections = sectionLinks
+                .map((link) => {
+                    const id = link.getAttribute('href').slice(1);
+                    const sectionEl = document.getElementById(id);
+                    return sectionEl ? { id, href: `#${id}`, el: sectionEl } : null;
+                })
+                .filter(Boolean);
+
+            function updateActiveSectionOnScroll() {
+                if (isClickScrolling || trackedSections.length === 0) return;
+
+                const triggerLine = window.innerHeight * 0.35;
+                let currentActiveHref = trackedSections[0].href;
+
+                for (const item of trackedSections) {
+                    const rect = item.el.getBoundingClientRect();
+                    if (rect.top <= triggerLine) {
+                        currentActiveHref = item.href;
+                    }
+                }
+
+                // If scrolled near the very bottom of the page, highlight the last tracked section
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 80) {
+                    currentActiveHref = trackedSections[trackedSections.length - 1].href;
+                }
+
+                setActiveDockLink(currentActiveHref);
+            }
+
+            window.addEventListener('scroll', updateActiveSectionOnScroll, { passive: true });
+            updateActiveSectionOnScroll();
+
+            const states = items.map((el) => {
+                const rect = el.getBoundingClientRect();
                 return {
                     el,
-                    dot: el.querySelector('.sable-dock-dot'),
-                    isResume,
-                    baseWidth,
-                    baseHeight,
-                    w: baseWidth,
-                    h: baseHeight,
-                    y: 0,
-                    glow: 0,
-                    vw: 0,
-                    vh: 0,
-                    vy: 0,
-                    vglow: 0
+                    baseW: rect.width || 88,
+                    baseH: rect.height || 34,
+                    w: 0, vw: 0,
+                    h: 0, vh: 0,
+                    y: 0, vy: 0
                 };
             });
 
-            window.addEventListener('mousemove', (e) => {
+            window.addEventListener('resize', () => {
+                states.forEach((st) => {
+                    st.el.style.paddingLeft = '';
+                    st.el.style.paddingRight = '';
+                    const r = st.el.getBoundingClientRect();
+                    st.baseW = r.width;
+                    st.baseH = r.height;
+                });
+            });
+
+            dock.addEventListener('pointermove', (e) => {
                 pointerX = e.clientX;
-                pointerY = e.clientY;
-
-                const rect = dockEl.getBoundingClientRect();
-                const localX = pointerX - rect.left;
-                const localY = pointerY - rect.top;
-                dockEl.style.setProperty('--dock-mouse-x', `${localX}px`);
-                dockEl.style.setProperty('--dock-mouse-y', `${localY}px`);
-
-                const verticalDist = Math.abs(pointerY - (rect.top + rect.height * 0.5));
-                const horizontalDist =
-                    pointerX < rect.left
-                        ? rect.left - pointerX
-                        : pointerX > rect.right
-                        ? pointerX - rect.right
-                        : 0;
-
-                isPointerInsideBand =
-                    verticalDist < dockConfig.proximity * 0.85 &&
-                    horizontalDist < dockConfig.proximity;
-
-                dockEl.style.setProperty('--dock-glow-opacity', isPointerInsideBand ? '1' : '0');
+                pointerInside = true;
             });
 
-            window.addEventListener('mouseleave', () => {
-                isPointerInsideBand = false;
-                pointerX = -9999;
-                pointerY = -9999;
-                dockEl.style.setProperty('--dock-glow-opacity', '0');
+            dock.addEventListener('pointerleave', () => {
+                pointerInside = false;
             });
 
-            function stepDockPhysics() {
-                for (let i = 0; i < itemsState.length; i++) {
-                    const item = itemsState[i];
-                    if (item.el.offsetParent === null) continue; // Skip hidden responsive items
-
-                    const rect = item.el.getBoundingClientRect();
+            function animateDock() {
+                states.forEach((st) => {
+                    const rect = st.el.getBoundingClientRect();
                     const centerX = rect.left + rect.width * 0.5;
-                    const centerY = rect.top + rect.height * 0.5;
+                    const dist = Math.abs(pointerX - centerX);
+                    let factor = 0;
 
-                    const dx = pointerX - centerX;
-                    const dy = (pointerY - centerY) * 1.35;
-                    const dist = Math.hypot(dx, dy);
-
-                    let weight = 0;
-                    if (isPointerInsideBand && dist < dockConfig.proximity) {
-                        const norm = 1 - dist / dockConfig.proximity;
-                        // Smooth cosine bell curve matching ThreeUI Sable dock falloff
-                        weight = 0.5 - 0.5 * Math.cos(norm * Math.PI);
+                    if (pointerInside && dist < config.proximity) {
+                        const norm = 1 - dist / config.proximity;
+                        factor = norm * norm * (3 - 2 * norm); // smoothstep
                     }
 
-                    const targetW = item.baseWidth + weight * dockConfig.widthGrowth;
-                    const targetH = item.baseHeight + weight * dockConfig.heightGrowth;
-                    // Items spring downward as pointer crosses them
-                    const targetY = weight * (dockConfig.drop * 2.2);
-                    const targetGlow = weight;
+                    const targetW = factor * config.widthGrowth;
+                    const targetH = factor * config.heightGrowth;
+                    const targetY = factor * config.drop;
 
-                    item.vw = (item.vw + (targetW - item.w) * dockConfig.spring) * dockConfig.damping;
-                    item.vh = (item.vh + (targetH - item.h) * dockConfig.spring) * dockConfig.damping;
-                    item.vy = (item.vy + (targetY - item.y) * dockConfig.spring) * dockConfig.damping;
-                    item.vglow = (item.vglow + (targetGlow - item.glow) * dockConfig.spring) * dockConfig.damping;
+                    st.vw = (st.vw + (targetW - st.w) * config.spring) * config.damping;
+                    st.w += st.vw;
 
-                    item.w += item.vw;
-                    item.h += item.vh;
-                    item.y += item.vy;
-                    item.glow += item.vglow;
+                    st.vh = (st.vh + (targetH - st.h) * config.spring) * config.damping;
+                    st.h += st.vh;
 
-                    item.el.style.width = `${item.w.toFixed(2)}px`;
-                    item.el.style.height = `${item.h.toFixed(2)}px`;
-                    item.el.style.transform = `translate3d(0, ${item.y.toFixed(2)}px, 0)`;
+                    st.vy = (st.vy + (targetY - st.y) * config.spring) * config.damping;
+                    st.y += st.vy;
 
-                    if (!item.isResume) {
-                        const bgAlpha = 0.015 + item.glow * 0.095;
-                        const borderAlpha = 0.04 + item.glow * 0.24;
-                        item.el.style.background = `rgba(255, 255, 255, ${bgAlpha.toFixed(3)})`;
-                        item.el.style.borderColor = `rgba(125, 211, 252, ${borderAlpha.toFixed(3)})`;
-                    } else {
-                        const borderAlpha = 0.35 + item.glow * 0.45;
-                        item.el.style.borderColor = `rgba(56, 189, 248, ${borderAlpha.toFixed(3)})`;
-                    }
-
-                    if (item.dot) {
-                        const dotScale = Math.max(0, Math.min(1.2, item.glow * 1.15));
-                        item.dot.style.opacity = Math.max(0, Math.min(1, item.glow)).toFixed(2);
-                        item.dot.style.transform = `translateX(-50%) scale(${dotScale.toFixed(2)})`;
-                    }
-                }
-
-                requestAnimationFrame(stepDockPhysics);
+                    st.el.style.transform = `translate3d(0, ${st.y.toFixed(2)}px, 0)`;
+                    st.el.style.paddingLeft = `${(15 + st.w * 0.5).toFixed(1)}px`;
+                    st.el.style.paddingRight = `${(15 + st.w * 0.5).toFixed(1)}px`;
+                    st.el.style.paddingTop = `${(7 + st.h * 0.25).toFixed(1)}px`;
+                    st.el.style.paddingBottom = `${(7 + st.h * 0.25).toFixed(1)}px`;
+                });
+                requestAnimationFrame(animateDock);
             }
-
-            requestAnimationFrame(stepDockPhysics);
+            requestAnimationFrame(animateDock);
         })();
 
-        // 2. Typewriter Effect
-        const phrases = ["Predictive Models.", "Intelligent Systems.", "AI Agents.", "Data Pipelines."];
-        let currentPhrase = 0;
-        let isDeleting = false;
-        let text = '';
-        const typingElement = document.getElementById('typewriter');
-        
-        function type() {
-            const fullText = phrases[currentPhrase];
-            
-            if (isDeleting) {
-                text = fullText.substring(0, text.length - 1);
-            } else {
-                text = fullText.substring(0, text.length + 1);
-            }
-            
-            typingElement.innerHTML = text;
-            
-            let typeSpeed = isDeleting ? 50 : 100;
-            
-            if (!isDeleting && text === fullText) {
-                typeSpeed = 2000; // Pause at end of word
-                isDeleting = true;
-            } else if (isDeleting && text === '') {
-                isDeleting = false;
-                currentPhrase = (currentPhrase + 1) % phrases.length;
-                typeSpeed = 500; // Pause before typing new word
-            }
-            
-            setTimeout(type, typeSpeed);
-        }
-        
-        // Start typing effect on load
-        setTimeout(type, 1000);
+        // 3. Task 3 Skill Morph Card Radial Spotlight & Category Filter
+        document.querySelectorAll('.skill-morph-card').forEach((card) => {
+            card.addEventListener('pointermove', (e) => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            });
+        });
 
-        let scene, camera, renderer;
-        let workstationGroup, monitorGroup, crtHousingGroup, slicePlates = [];
-        let crtScreenMesh, crtCanvas, crtCtx, crtTexture;
-        let keycapMeshes = [];
-        let screenGlowLight, keyGlowLight;
-        let statusLedMesh;
+        const filterButtons = document.querySelectorAll('.skill-filter-btn');
+        const skillCards = document.querySelectorAll('#skills-bento-grid [data-category]');
 
-        // Interactive camera & animation state
-        let isMouseDown = false;
-        let prevMouseX = 0;
-        let prevMouseY = 0;
-        let targetCamAngleX = -0.58; // Isometric 3/4 angle matching video
-        let targetCamAngleY = 0.48;
-        let currentCamAngleX = -0.58;
-        let currentCamAngleY = 0.48;
+        filterButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const filter = btn.getAttribute('data-filter');
 
-        // Deconstruct / Sliced Cathode mode (matches 00:05-00:08 in video)
-        let isDeconstructed = false;
-        let deconstructProgress = 0;
-        let autoCycleTimer = 0;
-        let typingSpeedMultiplier = 1.0;
+                filterButtons.forEach((b) => {
+                    b.className = 'skill-filter-btn px-3 py-1.5 rounded-md bg-secondary text-secondary-foreground hover:bg-accent transition-all';
+                });
+                btn.className = 'skill-filter-btn px-3 py-1.5 rounded-md bg-chart-1 text-white font-semibold transition-all';
 
-        const terminalLines = [
-            "SESSION_ID: PARV_ML_WORKSTATION_09",
-            "GPU_0: CUDA TENSOR CORE [ACTIVE]",
-            "loading weights: llm_agent_v4.safetensors",
-            "epoch 14/20 | loss: 0.0142 | lr: 3e-4",
-            "vector_db.index(cosine_similarity)",
-            "pipeline: dagshub -> mlflow -> aws_ec2",
-            "status: BUILT FOR THE LONG SESSION_"
-        ];
-        let progressBarValue = 0.25;
+                skillCards.forEach((card) => {
+                    const cat = card.getAttribute('data-category');
+                    if (filter === 'all' || cat === filter) {
+                        card.style.display = '';
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
 
-        function createCRTScreenTexture() {
-            crtCanvas = document.createElement('canvas');
-            crtCanvas.width = 512;
-            crtCanvas.height = 384;
-            crtCtx = crtCanvas.getContext('2d');
-            crtTexture = new THREE.CanvasTexture(crtCanvas);
-            crtTexture.minFilter = THREE.LinearFilter;
-            crtTexture.magFilter = THREE.LinearFilter;
-            updateCRTScreenTexture(0);
-        }
+        // 4. 3D Cathode Session Workstation WebGL Scene (Preserved from previous iteration)
+        window.addEventListener('load', () => {
+            const container = document.getElementById('cathode-canvas-container');
+            if (!container || typeof THREE === 'undefined') return;
 
-        function updateCRTScreenTexture(time) {
-            if (!crtCtx) return;
-            const w = crtCanvas.width;
-            const h = crtCanvas.height;
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(34, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(6.5, 5.2, 8.8);
+            camera.lookAt(0, 0.2, 0);
 
-            // Deep phosphor black-charcoal screen base
-            crtCtx.fillStyle = '#07090d';
-            crtCtx.fillRect(0, 0, w, h);
-
-            // Subtle inner bezel border
-            crtCtx.strokeStyle = 'rgba(220, 238, 255, 0.22)';
-            crtCtx.lineWidth = 3;
-            crtCtx.strokeRect(18, 18, w - 36, h - 36);
-
-            // Top header bar
-            crtCtx.fillStyle = 'rgba(226, 240, 255, 0.85)';
-            crtCtx.font = 'bold 15px "Fira Code", monospace';
-            crtCtx.fillText('CATHODE // SESSION_TTY1', 36, 52);
-
-            // Right status indicator
-            crtCtx.fillStyle = 'rgba(56, 189, 248, 0.9)';
-            crtCtx.fillText('[ONLINE]', w - 120, 52);
-
-            // Divider line
-            crtCtx.fillStyle = 'rgba(226, 240, 255, 0.18)';
-            crtCtx.fillRect(36, 66, w - 72, 2);
-
-            // Terminal code lines
-            crtCtx.font = '14px "Fira Code", monospace';
-            const visibleCount = 6;
-            for (let i = 0; i < visibleCount; i++) {
-                const lineText = terminalLines[i % terminalLines.length];
-                const alpha = i === visibleCount - 1 ? 0.95 : 0.45 + (i * 0.08);
-                crtCtx.fillStyle = `rgba(215, 235, 255, ${alpha})`;
-                const cursor = (i === visibleCount - 1 && Math.floor(time * 3) % 2 === 0) ? ' █' : '';
-                crtCtx.fillText('> ' + lineText + cursor, 36, 102 + i * 28);
-            }
-
-            const barX = 36;
-            const barY = h - 78;
-            const barW = w - 72;
-            const barH = 18;
-
-            crtCtx.strokeStyle = 'rgba(235, 245, 255, 0.7)';
-            crtCtx.lineWidth = 2;
-            crtCtx.strokeRect(barX, barY, barW, barH);
-
-            const fillW = Math.max(12, (barW - 8) * progressBarValue);
-            crtCtx.fillStyle = '#f8fafc';
-            crtCtx.shadowColor = '#38bdf8';
-            crtCtx.shadowBlur = 14;
-            crtCtx.fillRect(barX + 4, barY + 4, fillW, barH - 8);
-            crtCtx.shadowBlur = 0;
-
-            // Scanline overlay
-            crtCtx.fillStyle = 'rgba(0, 0, 0, 0.28)';
-            for (let y = 0; y < h; y += 4) {
-                crtCtx.fillRect(0, y, w, 2);
-            }
-
-            crtTexture.needsUpdate = true;
-        }
-
-        function initLivingDeveloperWorld() {
-            const canvas = document.getElementById('neural-world-canvas');
-            scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x050608, 0.045);
-
-            camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
-
-            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.shadowMap.enabled = true;
+            container.appendChild(renderer.domElement);
 
-            // Studio rim lighting to sculpt the dark matte workstation
-            const ambientLight = new THREE.AmbientLight(0x1e2638, 1.35);
+            // Lighting matching the warm #F26A4B accent and phosphor CRT glow
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.55);
             scene.add(ambientLight);
 
-            const topRimLight = new THREE.DirectionalLight(0xcbd5e1, 1.4);
-            topRimLight.position.set(-6, 12, 8);
-            scene.add(topRimLight);
+            const keyLight = new THREE.DirectionalLight(0xfff4e8, 1.1);
+            keyLight.position.set(6, 10, 7);
+            scene.add(keyLight);
 
-            const sideRimLight = new THREE.DirectionalLight(0x38bdf8, 0.75);
-            sideRimLight.position.set(10, 5, -6);
-            scene.add(sideRimLight);
+            const coralLight = new THREE.PointLight(0xF26A4B, 1.8, 14);
+            coralLight.position.set(-2.5, 2.2, 2.5);
+            scene.add(coralLight);
 
-            // Cathode screen glow light
-            screenGlowLight = new THREE.PointLight(0xdbeafe, 2.2, 7.5);
-            screenGlowLight.position.set(0, 1.2, 1.3);
-
-            // Keyboard keycap underglow light
-            keyGlowLight = new THREE.PointLight(0xe0f2fe, 1.8, 4.5);
-            keyGlowLight.position.set(0, 0.35, 2.15);
-
-            createCRTScreenTexture();
-            buildCathodeWorkstation();
-            setupWorkstationInteractions();
-        }
-
-        function buildCathodeWorkstation() {
-            workstationGroup = new THREE.Group();
-            // Position slightly to the right on desktop so it balances with hero text
-            updateWorkstationPlacement();
+            const workstationGroup = new THREE.Group();
+            workstationGroup.position.set(2.3, -0.5, 0);
+            workstationGroup.rotation.y = -0.35;
             scene.add(workstationGroup);
 
-            workstationGroup.add(screenGlowLight);
-            workstationGroup.add(keyGlowLight);
+            // Live 2D Canvas Texture for the CRT Terminal Screen
+            const screenCanvas = document.createElement('canvas');
+            screenCanvas.width = 512;
+            screenCanvas.height = 384;
+            const sCtx = screenCanvas.getContext('2d');
+            const screenTexture = new THREE.CanvasTexture(screenCanvas);
 
-            // Materials matching the dark anodized cathode hardware in the video
+            let progressVal = 0.72;
+            function updateCRTScreen(time) {
+                sCtx.fillStyle = '#0e0e0e';
+                sCtx.fillRect(0, 0, 512, 384);
+
+                // Scanlines
+                sCtx.fillStyle = 'rgba(255,255,255,0.03)';
+                for (let y = 0; y < 384; y += 4) {
+                    sCtx.fillRect(0, y, 512, 1);
+                }
+
+                sCtx.font = 'bold 16px "JetBrains Mono", monospace';
+                sCtx.fillStyle = '#F26A4B';
+                sCtx.fillText('CATHODE SESSION // PARV_NANDAL_MLOPS', 28, 46);
+
+                sCtx.font = '13px "JetBrains Mono", monospace';
+                sCtx.fillStyle = '#D9CFC2';
+                sCtx.fillText('> model.load("network_security_phishing.pkl")', 28, 90);
+                sCtx.fillText('> pipeline: ETL -> Validation -> MLflow', 28, 118);
+                sCtx.fillText('> agents: LangChain + LangGraph + VectorDB', 28, 146);
+                sCtx.fillText('> status: BUILT FOR THE LONG SESSION', 28, 174);
+
+                // Animated horizontal progress bar from reference video
+                progressVal = 0.25 + 0.7 * (0.5 + 0.5 * Math.sin(time * 0.9));
+                sCtx.strokeStyle = '#E8E3DA';
+                sCtx.lineWidth = 2;
+                sCtx.strokeRect(28, 280, 456, 22);
+                sCtx.fillStyle = '#E8E3DA';
+                sCtx.fillRect(32, 284, 448 * progressVal, 14);
+
+                screenTexture.needsUpdate = true;
+            }
+
+            // Sliced Cathode Monitor Plates (Deconstructs into parallel slices)
+            const crtSlices = [];
+            const sliceCount = 10;
             const darkShellMat = new THREE.MeshStandardMaterial({
-                color: 0x12151c,
-                roughness: 0.42,
-                metalness: 0.55
+                color: 0x1c1c1c,
+                roughness: 0.4,
+                metalness: 0.6
             });
-            const innerCharcoalMat = new THREE.MeshStandardMaterial({
-                color: 0x1b202b,
-                roughness: 0.35,
-                metalness: 0.65
-            });
-            const edgeWireMat = new THREE.LineBasicMaterial({
-                color: 0x334155,
-                transparent: true,
-                opacity: 0.48
-            });
+            const edgeGlowMat = new THREE.LineBasicMaterial({ color: 0xF26A4B, transparent: true, opacity: 0.45 });
 
-            // Subtle dark workstation desk surface & isometric grid
-            const deskGeo = new THREE.PlaneGeometry(26, 26);
-            deskGeo.rotateX(-Math.PI / 2);
-            const deskMat = new THREE.MeshStandardMaterial({
-                color: 0x06080c,
-                roughness: 0.85,
-                metalness: 0.2
-            });
-            const deskMesh = new THREE.Mesh(deskGeo, deskMat);
-            deskMesh.position.y = -0.02;
-            workstationGroup.add(deskMesh);
+            for (let i = 0; i < sliceCount; i++) {
+                const depth = 0.16;
+                const w = i < 2 ? 2.5 : 2.15;
+                const h = i < 2 ? 2.0 : 1.7;
+                const geo = new THREE.BoxGeometry(w, h, depth);
+                const mesh = new THREE.Mesh(geo, darkShellMat);
+                const baseZ = -i * 0.18;
+                mesh.position.set(0, 1.15, baseZ);
 
-            const gridHelper = new THREE.GridHelper(18, 36, 0x1e293b, 0x0f172a);
-            gridHelper.position.y = -0.01;
-            gridHelper.material.transparent = true;
-            gridHelper.material.opacity = 0.32;
-            workstationGroup.add(gridHelper);
+                const edges = new THREE.EdgesGeometry(geo);
+                const line = new THREE.LineSegments(edges, edgeGlowMat);
+                mesh.add(line);
 
-            // 1. CRT Monitor Assembly
-            monitorGroup = new THREE.Group();
-            monitorGroup.position.set(0, 0, -0.35);
-            workstationGroup.add(monitorGroup);
-
-            // Monitor swivel base pedestal
-            const basePedestal = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.22, 1.7), darkShellMat);
-            basePedestal.position.set(0, 0.11, 0);
-            monitorGroup.add(basePedestal);
-
-            const neckMesh = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.28, 1.1), innerCharcoalMat);
-            neckMesh.position.set(0, 0.32, -0.1);
-            monitorGroup.add(neckMesh);
-
-            crtHousingGroup = new THREE.Group();
-            crtHousingGroup.position.set(0, 1.62, 0);
-            monitorGroup.add(crtHousingGroup);
-
-            // Front Bezel Frame (4 bars around the screen)
-            const bezelThickness = 0.22;
-            const monitorW = 3.1;
-            const monitorH = 2.45;
-            const frameDepth = 0.45;
-
-            const topBar = new THREE.Mesh(new THREE.BoxGeometry(monitorW, bezelThickness, frameDepth), darkShellMat);
-            topBar.position.set(0, monitorH / 2 - bezelThickness / 2, 0.85);
-            const botBar = new THREE.Mesh(new THREE.BoxGeometry(monitorW, bezelThickness * 1.35, frameDepth), darkShellMat);
-            botBar.position.set(0, -monitorH / 2 + (bezelThickness * 1.35) / 2, 0.85);
-            const leftBar = new THREE.Mesh(new THREE.BoxGeometry(bezelThickness, monitorH, frameDepth), darkShellMat);
-            leftBar.position.set(-monitorW / 2 + bezelThickness / 2, 0, 0.85);
-            const rightBar = new THREE.Mesh(new THREE.BoxGeometry(bezelThickness, monitorH, frameDepth), darkShellMat);
-            rightBar.position.set(monitorW / 2 - bezelThickness / 2, 0, 0.85);
-
-            [topBar, botBar, leftBar, rightBar].forEach(part => {
-                const edges = new THREE.EdgesGeometry(part.geometry);
-                part.add(new THREE.LineSegments(edges, edgeWireMat));
-                crtHousingGroup.add(part);
-            });
-
-            // Power LED on bottom right bezel
-            const ledGeo = new THREE.BoxGeometry(0.12, 0.04, 0.04);
-            const ledMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-            statusLedMesh = new THREE.Mesh(ledGeo, ledMat);
-            statusLedMesh.position.set(1.15, -1.05, 1.08);
-            crtHousingGroup.add(statusLedMesh);
-
-            // Live CRT Screen Mesh
-            const screenGeo = new THREE.PlaneGeometry(monitorW - bezelThickness * 1.9, monitorH - bezelThickness * 2.1);
-            const screenMat = new THREE.MeshBasicMaterial({ map: crtTexture });
-            crtScreenMesh = new THREE.Mesh(screenGeo, screenMat);
-            crtScreenMesh.position.set(0, 0.03, 0.72);
-            crtHousingGroup.add(crtScreenMesh);
-
-            const numSlices = 14;
-            const totalDepth = 2.15;
-            for (let i = 0; i < numSlices; i++) {
-                const t = i / (numSlices - 1);
-                // Taper slightly toward the rear like a classic workstation CRT
-                const taper = 1.0 - t * 0.22;
-                const sliceW = monitorW * taper;
-                const sliceH = monitorH * taper;
-                const sliceThickness = 0.095;
-
-                const sliceGeo = new THREE.BoxGeometry(sliceW, sliceH, sliceThickness);
-                const sliceMat = new THREE.MeshStandardMaterial({
-                    color: 0x141821,
-                    emissive: 0x0c192c,
-                    emissiveIntensity: 0.15,
-                    roughness: 0.35,
-                    metalness: 0.65
-                });
-                const sliceMesh = new THREE.Mesh(sliceGeo, sliceMat);
-                const baseZ = 0.58 - i * (totalDepth / numSlices);
-                sliceMesh.position.set(0, 0, baseZ);
-
-                const sliceEdges = new THREE.EdgesGeometry(sliceGeo);
-                const sliceLineMat = new THREE.LineBasicMaterial({
-                    color: 0x64748b,
-                    transparent: true,
-                    opacity: 0.42
-                });
-                const wire = new THREE.LineSegments(sliceEdges, sliceLineMat);
-                sliceMesh.add(wire);
-
-                crtHousingGroup.add(sliceMesh);
-                slicePlates.push({
-                    mesh: sliceMesh,
-                    wire: wire,
-                    baseZ: baseZ,
-                    index: i
-                });
+                workstationGroup.add(mesh);
+                crtSlices.push({ mesh, baseZ, index: i });
             }
 
-            const sideUnitGroup = new THREE.Group();
-            sideUnitGroup.position.set(-2.05, 0.82, -0.35);
-            const sideBoxGeo = new THREE.BoxGeometry(0.82, 1.64, 1.95);
-            const sideBox = new THREE.Mesh(sideBoxGeo, darkShellMat);
-            sideBox.add(new THREE.LineSegments(new THREE.EdgesGeometry(sideBoxGeo), edgeWireMat));
-            sideUnitGroup.add(sideBox);
+            // Front CRT Screen Plane
+            const screenGeo = new THREE.PlaneGeometry(2.15, 1.62);
+            const screenMat = new THREE.MeshBasicMaterial({ map: screenTexture });
+            const screenMesh = new THREE.Mesh(screenGeo, screenMat);
+            screenMesh.position.set(0, 1.15, 0.09);
+            workstationGroup.add(screenMesh);
 
-            // Horizontal vent slits on the side drive bay
-            for (let v = 0; v < 6; v++) {
-                const ventGeo = new THREE.BoxGeometry(0.55, 0.035, 0.06);
-                const ventMesh = new THREE.Mesh(ventGeo, new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
-                ventMesh.position.set(0, 0.45 - v * 0.11, 0.98);
-                sideUnitGroup.add(ventMesh);
-            }
-            workstationGroup.add(sideUnitGroup);
+            // Mechanical Keyboard Base + Illuminated Keycaps
+            const kbGroup = new THREE.Group();
+            kbGroup.position.set(0, 0.04, 1.35);
+            kbGroup.rotation.x = 0.14;
+            workstationGroup.add(kbGroup);
 
-            const keyboardGroup = new THREE.Group();
-            keyboardGroup.position.set(0.15, 0.12, 1.95);
-            // Slight ergonomic typing tilt
-            keyboardGroup.rotation.x = 0.11;
-
-            const kbWidth = 3.25;
-            const kbDepth = 1.22;
-            const kbBaseGeo = new THREE.BoxGeometry(kbWidth, 0.18, kbDepth);
-            const kbBase = new THREE.Mesh(kbBaseGeo, darkShellMat);
-            kbBase.add(new THREE.LineSegments(new THREE.EdgesGeometry(kbBaseGeo), edgeWireMat));
-            keyboardGroup.add(kbBase);
-
-            const rows = 5;
-            const cols = 15;
-            const startX = -kbWidth / 2 + 0.22;
-            const startZ = -kbDepth / 2 + 0.20;
-            const spacingX = (kbWidth - 0.44) / (cols - 1);
-            const spacingZ = (kbDepth - 0.40) / (rows - 1);
-
-            for (let r = 0; r < rows; r++) {
-                for (let c = 0; c < cols; c++) {
-                    // Spacebar handling on bottom row
-                    if (r === 4 && (c >= 5 && c <= 9)) {
-                        if (c !== 7) continue;
-                    }
-                    const isSpacebar = (r === 4 && c === 7);
-                    const keyW = isSpacebar ? spacingX * 4.6 : spacingX * 0.82;
-                    const keyGeo = new THREE.BoxGeometry(keyW, 0.09, spacingZ * 0.8);
-
-                    // Center cluster glows brighter like in the video
-                    const distFromCenter = Math.hypot(c - 7, (r - 2) * 1.4);
-                    const isCoreCluster = distFromCenter < 4.2;
-
-                    const keyMat = new THREE.MeshStandardMaterial({
-                        color: isCoreCluster ? 0xe2e8f0 : 0x1e2430,
-                        emissive: isCoreCluster ? 0xf8fafc : 0x0f172a,
-                        emissiveIntensity: isCoreCluster ? 0.55 : 0.05,
-                        roughness: 0.3
-                    });
-
-                    const keyMesh = new THREE.Mesh(keyGeo, keyMat);
-                    keyMesh.position.set(startX + c * spacingX, 0.12, startZ + r * spacingZ);
-                    keyboardGroup.add(keyMesh);
-
-                    keycapMeshes.push({
-                        mesh: keyMesh,
-                        row: r,
-                        col: c,
-                        isCoreCluster: isCoreCluster,
-                        heat: isCoreCluster ? Math.random() * 0.8 : 0
-                    });
-                }
-            }
-            workstationGroup.add(keyboardGroup);
-
-            const mouseGroup = new THREE.Group();
-            mouseGroup.position.set(2.25, 0.11, 2.05);
-            const mouseGeo = new THREE.BoxGeometry(0.56, 0.18, 0.92);
-            const mouseMesh = new THREE.Mesh(mouseGeo, darkShellMat);
-            mouseMesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(mouseGeo), edgeWireMat));
-            mouseGroup.add(mouseMesh);
-
-            const wheelMesh = new THREE.Mesh(
-                new THREE.BoxGeometry(0.06, 0.06, 0.18),
-                new THREE.MeshBasicMaterial({ color: 0xf8fafc })
+            const kbBase = new THREE.Mesh(
+                new THREE.BoxGeometry(2.4, 0.12, 0.92),
+                new THREE.MeshStandardMaterial({ color: 0x161616, roughness: 0.5, metalness: 0.5 })
             );
-            wheelMesh.position.set(0, 0.1, -0.22);
-            mouseGroup.add(wheelMesh);
-            workstationGroup.add(mouseGroup);
-        }
+            kbGroup.add(kbBase);
 
-        function updateWorkstationPlacement() {
-            if (!workstationGroup) return;
-            if (window.innerWidth >= 1024) {
-                workstationGroup.position.set(1.6, -1.05, 0);
-                workstationGroup.scale.setScalar(1.05);
-            } else {
-                workstationGroup.position.set(0, -1.25, -1.2);
-                workstationGroup.scale.setScalar(0.85);
-            }
-        }
-
-        function triggerKeystrokeBurst() {
-            // Light up random core keycaps when user types or interacts
-            for (let i = 0; i < 4; i++) {
-                const randomKey = keycapMeshes[Math.floor(Math.random() * keycapMeshes.length)];
-                if (randomKey) randomKey.heat = 1.6;
-            }
-            progressBarValue = (progressBarValue + 0.04) % 1.0;
-        }
-
-        function toggleSliceMode() {
-            isDeconstructed = !isDeconstructed;
-            const hud = document.getElementById('butterfly-state-hud');
-            if (hud) {
-                hud.textContent = isDeconstructed
-                    ? 'Cathode: Sliced Array [OPEN]'
-                    : 'Built for the Long Session';
-            }
-        }
-
-        function setupWorkstationInteractions() {
-            window.addEventListener('mousedown', (e) => {
-                isMouseDown = true;
-                prevMouseX = e.clientX;
-                prevMouseY = e.clientY;
-                triggerKeystrokeBurst();
-            });
-
-            window.addEventListener('mouseup', () => {
-                isMouseDown = false;
-            });
-
-            window.addEventListener('mousemove', (e) => {
-                if (isMouseDown) {
-                    const dx = e.clientX - prevMouseX;
-                    const dy = e.clientY - prevMouseY;
-                    targetCamAngleX -= dx * 0.005;
-                    targetCamAngleY = Math.max(0.2, Math.min(1.05, targetCamAngleY + dy * 0.004));
-                    prevMouseX = e.clientX;
-                    prevMouseY = e.clientY;
-                } else {
-                    const normX = (e.clientX / window.innerWidth - 0.5) * 0.32;
-                    const normY = (e.clientY / window.innerHeight - 0.5) * 0.16;
-                    targetCamAngleX = -0.58 + normX;
-                    targetCamAngleY = 0.48 + normY;
+            const keys = [];
+            const keyGeo = new THREE.BoxGeometry(0.12, 0.06, 0.12);
+            for (let r = 0; r < 5; r++) {
+                for (let c = 0; c < 14; c++) {
+                    const isLit = Math.random() > 0.65;
+                    const keyMat = new THREE.MeshStandardMaterial({
+                        color: isLit ? 0xE8E3DA : 0x2a2a2a,
+                        emissive: isLit ? 0xF26A4B : 0x000000,
+                        emissiveIntensity: isLit ? 0.55 : 0,
+                        roughness: 0.35
+                    });
+                    const keyMesh = new THREE.Mesh(keyGeo, keyMat);
+                    keyMesh.position.set(-1.02 + c * 0.155, 0.08, -0.32 + r * 0.155);
+                    kbGroup.add(keyMesh);
+                    keys.push({ mesh: keyMesh, phase: Math.random() * Math.PI * 2 });
                 }
+            }
+
+            // Slice CRT Deconstruction State
+            let sliceMode = false;
+            let sliceFactor = 0;
+            const sliceBtn = document.getElementById('slice-crt-btn');
+            if (sliceBtn) {
+                sliceBtn.addEventListener('click', () => {
+                    sliceMode = !sliceMode;
+                });
+            }
+
+            // Pointer Parallax
+            let targetRotY = -0.35;
+            let targetRotX = 0;
+            window.addEventListener('pointermove', (e) => {
+                const nx = (e.clientX / window.innerWidth) * 2 - 1;
+                const ny = (e.clientY / window.innerHeight) * 2 - 1;
+                targetRotY = -0.35 + nx * 0.18;
+                targetRotX = ny * 0.08;
             });
-
-            window.addEventListener('keydown', () => {
-                triggerKeystrokeBurst();
-            });
-
-            window.addEventListener('touchstart', (e) => {
-                if (e.touches.length === 1) {
-                    isMouseDown = true;
-                    prevMouseX = e.touches[0].clientX;
-                }
-            }, { passive: true });
-
-            window.addEventListener('touchend', () => {
-                isMouseDown = false;
-            }, { passive: true });
-
-            window.addEventListener('touchmove', (e) => {
-                if (isMouseDown && e.touches.length === 1) {
-                    const dx = e.touches[0].clientX - prevMouseX;
-                    prevMouseX = e.touches[0].clientX;
-                    targetCamAngleX -= dx * 0.005;
-                }
-            }, { passive: true });
-
-            document.getElementById('trigger-scan-btn').addEventListener('click', toggleSliceMode);
 
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
-                updateWorkstationPlacement();
-            });
-        }
-
-        function animateLivingWorld() {
-            requestAnimationFrame(animateLivingWorld);
-            const t = performance.now() * 0.001;
-
-            // Automatic periodic slice transition every ~7 seconds like the video loop
-            if (t - autoCycleTimer > 7.5) {
-                autoCycleTimer = t;
-                toggleSliceMode();
-            }
-
-            // 1. Smooth Isometric Camera Orbit
-            currentCamAngleX += (targetCamAngleX - currentCamAngleX) * 0.05;
-            currentCamAngleY += (targetCamAngleY - currentCamAngleY) * 0.05;
-            const camDist = 9.6;
-            camera.position.x = Math.sin(currentCamAngleX) * camDist;
-            camera.position.z = Math.cos(currentCamAngleX) * camDist;
-            camera.position.y = 1.2 + currentCamAngleY * 6.8;
-            camera.lookAt(0.4, 0.55, 0.2);
-
-            // 2. Update CRT Progress Bar & Terminal Canvas
-            progressBarValue = (t * 0.14) % 1.0;
-            updateCRTScreenTexture(t);
-
-            // 3. Animate CRT Sliced Deconstruction (00:05 - 00:08 video effect)
-            const targetDeconstruct = isDeconstructed ? 1.0 : 0.0;
-            deconstructProgress += (targetDeconstruct - deconstructProgress) * 0.06;
-
-            slicePlates.forEach((slice) => {
-                const i = slice.index;
-                // Expand slices outward and ripple vertically when deconstructed
-                const spreadZ = slice.baseZ - deconstructProgress * (i * 0.095);
-                const waveY = deconstructProgress * Math.sin(t * 4.0 + i * 0.55) * 0.12;
-                const scaleStep = 1.0 + deconstructProgress * Math.sin(t * 3.0 + i * 0.4) * 0.04;
-
-                slice.mesh.position.z = spreadZ;
-                slice.mesh.position.y = waveY;
-                slice.mesh.scale.set(scaleStep, scaleStep, 1);
-
-                // Brighten internal cathode slice edges during deconstruction
-                slice.mesh.material.emissiveIntensity = 0.12 + deconstructProgress * 0.95;
-                slice.wire.material.opacity = 0.35 + deconstructProgress * 0.55;
             });
 
-            // 4. Rapid "Long Session" Keycap Illumination Ripple
-            if (Math.random() < 0.48 * typingSpeedMultiplier) {
-                const coreKeys = keycapMeshes.filter(k => k.isCoreCluster);
-                const pick = coreKeys[Math.floor(Math.random() * coreKeys.length)];
-                if (pick) pick.heat = 1.35;
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsed = clock.getElapsedTime();
+
+                updateCRTScreen(elapsed);
+
+                // Periodic or manual CRT Slice Deconstruction (00:05-00:08 effect)
+                const autoSlice = Math.sin(elapsed * 0.55) > 0.55;
+                const targetSlice = (sliceMode || autoSlice) ? 1 : 0;
+                sliceFactor += (targetSlice - sliceFactor) * 0.06;
+
+                crtSlices.forEach((s) => {
+                    const spread = s.index * 0.16 * sliceFactor;
+                    const wave = Math.sin(elapsed * 3 + s.index * 0.5) * 0.05 * sliceFactor;
+                    s.mesh.position.z = s.baseZ - spread;
+                    s.mesh.position.y = 1.15 + wave;
+                });
+
+                // Typing keycap ripple animation
+                keys.forEach((k, idx) => {
+                    const press = Math.sin(elapsed * 6 + k.phase);
+                    if (press > 0.88) {
+                        k.mesh.position.y = 0.055;
+                        k.mesh.material.emissiveIntensity = 0.9;
+                    } else {
+                        k.mesh.position.y = 0.08;
+                        k.mesh.material.emissiveIntensity *= 0.95;
+                    }
+                });
+
+                workstationGroup.rotation.y += (targetRotY - workstationGroup.rotation.y) * 0.05;
+                workstationGroup.rotation.x += (targetRotX - workstationGroup.rotation.x) * 0.05;
+
+                renderer.render(scene, camera);
             }
-
-            keycapMeshes.forEach((k) => {
-                k.heat = Math.max(0, k.heat - 0.04);
-                const activeGlow = k.isCoreCluster ? 0.25 + k.heat : k.heat * 0.8;
-                k.mesh.material.emissiveIntensity = activeGlow;
-                // Subtle physical key depression when lit
-                k.mesh.position.y = 0.12 - Math.min(0.035, k.heat * 0.025);
-            });
-
-            // Subtle flicker on keyboard & screen lights
-            keyGlowLight.intensity = 1.5 + Math.sin(t * 18.0) * 0.25;
-            if (statusLedMesh) {
-                statusLedMesh.material.opacity = 0.6 + Math.sin(t * 4.0) * 0.4;
-            }
-
-            renderer.render(scene, camera);
-        }
-
-        // Start animation loop on window load
-        window.onload = function () {
-            initLivingDeveloperWorld();
-            animateLivingWorld();
-        };
+            animate();
+        });
     </script>
 </body>
 </html>
