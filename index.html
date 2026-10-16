@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="icons.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <!-- Tailwind Configuration & Custom Styles -->
@@ -38,23 +39,23 @@
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Fragment+Mono&family=Inter:wght@300;400;500;600;700&display=swap');
         
         body {
-            background-color: #0f172a;
+            background-color: #050608;
             color: #f8fafc;
             background-image: 
-                radial-gradient(at 0% 0%, hsla(200,100%,20%,0.2) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, hsla(240,100%,20%,0.2) 0px, transparent 50%);
+                radial-gradient(at 70% 45%, hsla(205, 80%, 12%, 0.25) 0px, transparent 55%),
+                radial-gradient(at 15% 85%, hsla(220, 60%, 8%, 0.35) 0px, transparent 50%);
             background-attachment: fixed;
         }
 
         .glass-card {
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(15, 19, 28, 0.72);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 4px 20px -1px rgba(0, 0, 0, 0.5);
         }
 
         .gradient-text {
@@ -73,48 +74,189 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
+
+        #neural-world-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            display: block;
+            pointer-events: auto;
+        }
+
+        nav, main, footer {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* */
+        .sable-dock-wrapper {
+            position: fixed;
+            top: 1.25rem;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 1rem;
+            pointer-events: none;
+        }
+
+        .sable-dock {
+            pointer-events: auto;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.42rem 0.55rem;
+            border-radius: 9999px;
+            background: linear-gradient(180deg, rgba(20, 23, 31, 0.84) 0%, rgba(9, 11, 16, 0.94) 100%);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            box-shadow:
+                0 18px 40px -10px rgba(0, 0, 0, 0.78),
+                0 4px 12px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 0 rgba(255, 255, 255, 0.16),
+                inset 0 -1px 0 0 rgba(0, 0, 0, 0.65);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sable-dock::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(
+                140px circle at var(--dock-mouse-x, 50%) var(--dock-mouse-y, 0%),
+                rgba(125, 211, 252, 0.16),
+                transparent 70%
+            );
+            opacity: var(--dock-glow-opacity, 0);
+            transition: opacity 0.25s ease;
+            pointer-events: none;
+        }
+
+        .sable-dock-brand {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 0.85rem 0 0.7rem;
+            height: 38px;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            color: #f8fafc;
+            font-size: 1.05rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            margin-right: 0.15rem;
+            user-select: none;
+            text-decoration: none;
+        }
+
+        .sable-dock-item {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            border-radius: 9999px;
+            color: rgba(226, 232, 240, 0.78);
+            font-family: 'Fragment Mono', 'Fira Code', monospace;
+            font-size: 0.76rem;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+            will-change: width, height, transform, background, border-color;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .sable-dock-item:hover {
+            color: #ffffff;
+        }
+
+        .sable-dock-item-resume {
+            background: linear-gradient(180deg, rgba(14, 165, 233, 0.24) 0%, rgba(2, 132, 199, 0.14) 100%);
+            border-color: rgba(56, 189, 248, 0.35);
+            color: #e0f2fe;
+            box-shadow:
+                0 0 18px rgba(14, 165, 233, 0.22),
+                inset 0 1px 0 0 rgba(186, 230, 253, 0.28);
+        }
+
+        .sable-dock-dot {
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            border-radius: 9999px;
+            background: #38bdf8;
+            box-shadow: 0 0 8px #38bdf8;
+            transform: translateX(-50%) scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-card border-b-0 border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20">
-                <div class="flex items-center">
-                    <span class="text-2xl font-bold tracking-tighter text-white">Parv<span class="text-brand-500">.</span></span>
-                </div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#about" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">About</a>
-                    <a href="#skills" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Skills</a>
-                    <a href="#projects" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Projects</a>
-                    <!-- Resume Link in Nav -->
-                    <a href="Nandal,Parv-resume.pdf" target="_blank" class="bg-brand-600 hover:bg-brand-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-[0_0_15px_rgba(2,132,199,0.5)]">
-                        <i class="fas fa-file-alt mr-2"></i>Resume
-                    </a>
-                </div>
+    <canvas id="neural-world-canvas"></canvas>
 
-                <!-- Mobile menu button -->
-                <div class="flex items-center md:hidden">
-                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-t border-gray-700">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">About</a>
-                <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Skills</a>
-                <a href="#projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Projects</a>
-                <a href="Resume.pdf" target="_blank" class="block px-3 py-2 rounded-md text-base font-medium text-brand-400 hover:text-brand-300">Resume</a>
-            </div>
-        </div>
-    </nav>
+    <!-- Floating Interactive 3D Cathode Workstation Controller HUD -->
+    <div class="fixed bottom-4 right-4 z-50 glass-card px-4 py-2.5 rounded-full border border-white/15 flex items-center gap-3 text-xs font-mono text-gray-300 shadow-2xl">
+        <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+        <span class="hidden sm:inline text-white font-semibold tracking-wider">CATHODE_SESSION</span>
+        <span class="text-gray-600 hidden sm:inline">|</span>
+        <span id="butterfly-state-hud" class="text-gray-400">Built for the Long Session</span>
+        <button id="trigger-scan-btn" class="ml-1 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-colors cursor-pointer">
+            <i class="fas fa-layer-group mr-1 text-sky-400"></i>Slice CRT
+        </button>
+    </div>
+
+    <header class="sable-dock-wrapper">
+        <nav id="sable-top-dock" class="sable-dock" aria-label="Primary Navigation">
+            <a href="#about" class="sable-dock-brand">
+                Parv<span class="text-brand-400">.</span>
+            </a>
+
+            <a href="#about" class="sable-dock-item" data-dock-item>
+                <i class="fas fa-terminal text-[11px] text-sky-400/90"></i>
+                <span>About</span>
+                <span class="sable-dock-dot"></span>
+            </a>
+
+            <a href="#skills" class="sable-dock-item" data-dock-item>
+                <i class="fas fa-microchip text-[11px] text-sky-400/90"></i>
+                <span>Skills</span>
+                <span class="sable-dock-dot"></span>
+            </a>
+
+            <a href="#projects" class="sable-dock-item" data-dock-item>
+                <i class="fas fa-cube text-[11px] text-sky-400/90"></i>
+                <span>Projects</span>
+                <span class="sable-dock-dot"></span>
+            </a>
+
+            <a href="#toy-projects" class="sable-dock-item hidden sm:inline-flex" data-dock-item>
+                <i class="fas fa-flask text-[11px] text-sky-400/90"></i>
+                <span>Lab</span>
+                <span class="sable-dock-dot"></span>
+            </a>
+
+            <a href="Nandal,Parv-resume.pdf" target="_blank" class="sable-dock-item sable-dock-item-resume" data-dock-item>
+                <i class="fas fa-file-alt text-[11px] text-sky-300"></i>
+                <span>Resume</span>
+                <span class="sable-dock-dot"></span>
+            </a>
+        </nav>
+    </header>
 
     <!-- Main Content -->
     <main class="flex-grow pt-20">
@@ -411,7 +553,7 @@
                         You can download my full resume to get a detailed overview of my education, technical skills, and all the projects I've worked on.
                     </p>
                     <!-- Resume Link in Call To Action -->
-                    <a href="Resume.pdf" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full transition-all hover:scale-105 shadow-[0_0_20px_rgba(2,132,199,0.4)]">
+                    <a href="Nandal,Parv-resume.pdf" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-full transition-all hover:scale-105 shadow-[0_0_20px_rgba(2,132,199,0.4)]">
                         <i class="fas fa-download"></i> Download Resume (PDF)
                     </a>
                 </div>
@@ -442,15 +584,144 @@
 
     <!-- Interactive Scripts -->
     <script>
-        // 1. Mobile Menu Toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            var menu = document.getElementById('mobile-menu');
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-            } else {
-                menu.classList.add('hidden');
+        (function initSableAnimatedTopDock() {
+            const dockConfig = {
+                variant: 'sable',
+                proximity: 122,
+                spring: 0.19,
+                damping: 0.70,
+                widthGrowth: 17,
+                heightGrowth: 16,
+                drop: 3.5
+            };
+
+            const dockEl = document.getElementById('sable-top-dock');
+            if (!dockEl) return;
+
+            const itemEls = Array.from(dockEl.querySelectorAll('[data-dock-item]'));
+            let pointerX = -9999;
+            let pointerY = -9999;
+            let isPointerInsideBand = false;
+
+            const itemsState = itemEls.map((el) => {
+                // Measure natural unscaled dimensions once on init
+                const isResume = el.classList.contains('sable-dock-item-resume');
+                const baseWidth = isResume ? 96 : 86;
+                const baseHeight = 36;
+                el.style.width = baseWidth + 'px';
+                el.style.height = baseHeight + 'px';
+
+                return {
+                    el,
+                    dot: el.querySelector('.sable-dock-dot'),
+                    isResume,
+                    baseWidth,
+                    baseHeight,
+                    w: baseWidth,
+                    h: baseHeight,
+                    y: 0,
+                    glow: 0,
+                    vw: 0,
+                    vh: 0,
+                    vy: 0,
+                    vglow: 0
+                };
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                pointerX = e.clientX;
+                pointerY = e.clientY;
+
+                const rect = dockEl.getBoundingClientRect();
+                const localX = pointerX - rect.left;
+                const localY = pointerY - rect.top;
+                dockEl.style.setProperty('--dock-mouse-x', `${localX}px`);
+                dockEl.style.setProperty('--dock-mouse-y', `${localY}px`);
+
+                const verticalDist = Math.abs(pointerY - (rect.top + rect.height * 0.5));
+                const horizontalDist =
+                    pointerX < rect.left
+                        ? rect.left - pointerX
+                        : pointerX > rect.right
+                        ? pointerX - rect.right
+                        : 0;
+
+                isPointerInsideBand =
+                    verticalDist < dockConfig.proximity * 0.85 &&
+                    horizontalDist < dockConfig.proximity;
+
+                dockEl.style.setProperty('--dock-glow-opacity', isPointerInsideBand ? '1' : '0');
+            });
+
+            window.addEventListener('mouseleave', () => {
+                isPointerInsideBand = false;
+                pointerX = -9999;
+                pointerY = -9999;
+                dockEl.style.setProperty('--dock-glow-opacity', '0');
+            });
+
+            function stepDockPhysics() {
+                for (let i = 0; i < itemsState.length; i++) {
+                    const item = itemsState[i];
+                    if (item.el.offsetParent === null) continue; // Skip hidden responsive items
+
+                    const rect = item.el.getBoundingClientRect();
+                    const centerX = rect.left + rect.width * 0.5;
+                    const centerY = rect.top + rect.height * 0.5;
+
+                    const dx = pointerX - centerX;
+                    const dy = (pointerY - centerY) * 1.35;
+                    const dist = Math.hypot(dx, dy);
+
+                    let weight = 0;
+                    if (isPointerInsideBand && dist < dockConfig.proximity) {
+                        const norm = 1 - dist / dockConfig.proximity;
+                        // Smooth cosine bell curve matching ThreeUI Sable dock falloff
+                        weight = 0.5 - 0.5 * Math.cos(norm * Math.PI);
+                    }
+
+                    const targetW = item.baseWidth + weight * dockConfig.widthGrowth;
+                    const targetH = item.baseHeight + weight * dockConfig.heightGrowth;
+                    // Items spring downward as pointer crosses them
+                    const targetY = weight * (dockConfig.drop * 2.2);
+                    const targetGlow = weight;
+
+                    item.vw = (item.vw + (targetW - item.w) * dockConfig.spring) * dockConfig.damping;
+                    item.vh = (item.vh + (targetH - item.h) * dockConfig.spring) * dockConfig.damping;
+                    item.vy = (item.vy + (targetY - item.y) * dockConfig.spring) * dockConfig.damping;
+                    item.vglow = (item.vglow + (targetGlow - item.glow) * dockConfig.spring) * dockConfig.damping;
+
+                    item.w += item.vw;
+                    item.h += item.vh;
+                    item.y += item.vy;
+                    item.glow += item.vglow;
+
+                    item.el.style.width = `${item.w.toFixed(2)}px`;
+                    item.el.style.height = `${item.h.toFixed(2)}px`;
+                    item.el.style.transform = `translate3d(0, ${item.y.toFixed(2)}px, 0)`;
+
+                    if (!item.isResume) {
+                        const bgAlpha = 0.015 + item.glow * 0.095;
+                        const borderAlpha = 0.04 + item.glow * 0.24;
+                        item.el.style.background = `rgba(255, 255, 255, ${bgAlpha.toFixed(3)})`;
+                        item.el.style.borderColor = `rgba(125, 211, 252, ${borderAlpha.toFixed(3)})`;
+                    } else {
+                        const borderAlpha = 0.35 + item.glow * 0.45;
+                        item.el.style.borderColor = `rgba(56, 189, 248, ${borderAlpha.toFixed(3)})`;
+                    }
+
+                    if (item.dot) {
+                        const dotScale = Math.max(0, Math.min(1.2, item.glow * 1.15));
+                        item.dot.style.opacity = Math.max(0, Math.min(1, item.glow)).toFixed(2);
+                        item.dot.style.transform = `translateX(-50%) scale(${dotScale.toFixed(2)})`;
+                    }
+                }
+
+                requestAnimationFrame(stepDockPhysics);
             }
-        });
+
+            requestAnimationFrame(stepDockPhysics);
+        })();
 
         // 2. Typewriter Effect
         const phrases = ["Predictive Models.", "Intelligent Systems.", "AI Agents.", "Data Pipelines."];
@@ -486,6 +757,538 @@
         
         // Start typing effect on load
         setTimeout(type, 1000);
+
+        let scene, camera, renderer;
+        let workstationGroup, monitorGroup, crtHousingGroup, slicePlates = [];
+        let crtScreenMesh, crtCanvas, crtCtx, crtTexture;
+        let keycapMeshes = [];
+        let screenGlowLight, keyGlowLight;
+        let statusLedMesh;
+
+        // Interactive camera & animation state
+        let isMouseDown = false;
+        let prevMouseX = 0;
+        let prevMouseY = 0;
+        let targetCamAngleX = -0.58; // Isometric 3/4 angle matching video
+        let targetCamAngleY = 0.48;
+        let currentCamAngleX = -0.58;
+        let currentCamAngleY = 0.48;
+
+        // Deconstruct / Sliced Cathode mode (matches 00:05-00:08 in video)
+        let isDeconstructed = false;
+        let deconstructProgress = 0;
+        let autoCycleTimer = 0;
+        let typingSpeedMultiplier = 1.0;
+
+        const terminalLines = [
+            "SESSION_ID: PARV_ML_WORKSTATION_09",
+            "GPU_0: CUDA TENSOR CORE [ACTIVE]",
+            "loading weights: llm_agent_v4.safetensors",
+            "epoch 14/20 | loss: 0.0142 | lr: 3e-4",
+            "vector_db.index(cosine_similarity)",
+            "pipeline: dagshub -> mlflow -> aws_ec2",
+            "status: BUILT FOR THE LONG SESSION_"
+        ];
+        let progressBarValue = 0.25;
+
+        function createCRTScreenTexture() {
+            crtCanvas = document.createElement('canvas');
+            crtCanvas.width = 512;
+            crtCanvas.height = 384;
+            crtCtx = crtCanvas.getContext('2d');
+            crtTexture = new THREE.CanvasTexture(crtCanvas);
+            crtTexture.minFilter = THREE.LinearFilter;
+            crtTexture.magFilter = THREE.LinearFilter;
+            updateCRTScreenTexture(0);
+        }
+
+        function updateCRTScreenTexture(time) {
+            if (!crtCtx) return;
+            const w = crtCanvas.width;
+            const h = crtCanvas.height;
+
+            // Deep phosphor black-charcoal screen base
+            crtCtx.fillStyle = '#07090d';
+            crtCtx.fillRect(0, 0, w, h);
+
+            // Subtle inner bezel border
+            crtCtx.strokeStyle = 'rgba(220, 238, 255, 0.22)';
+            crtCtx.lineWidth = 3;
+            crtCtx.strokeRect(18, 18, w - 36, h - 36);
+
+            // Top header bar
+            crtCtx.fillStyle = 'rgba(226, 240, 255, 0.85)';
+            crtCtx.font = 'bold 15px "Fira Code", monospace';
+            crtCtx.fillText('CATHODE // SESSION_TTY1', 36, 52);
+
+            // Right status indicator
+            crtCtx.fillStyle = 'rgba(56, 189, 248, 0.9)';
+            crtCtx.fillText('[ONLINE]', w - 120, 52);
+
+            // Divider line
+            crtCtx.fillStyle = 'rgba(226, 240, 255, 0.18)';
+            crtCtx.fillRect(36, 66, w - 72, 2);
+
+            // Terminal code lines
+            crtCtx.font = '14px "Fira Code", monospace';
+            const visibleCount = 6;
+            for (let i = 0; i < visibleCount; i++) {
+                const lineText = terminalLines[i % terminalLines.length];
+                const alpha = i === visibleCount - 1 ? 0.95 : 0.45 + (i * 0.08);
+                crtCtx.fillStyle = `rgba(215, 235, 255, ${alpha})`;
+                const cursor = (i === visibleCount - 1 && Math.floor(time * 3) % 2 === 0) ? ' █' : '';
+                crtCtx.fillText('> ' + lineText + cursor, 36, 102 + i * 28);
+            }
+
+            const barX = 36;
+            const barY = h - 78;
+            const barW = w - 72;
+            const barH = 18;
+
+            crtCtx.strokeStyle = 'rgba(235, 245, 255, 0.7)';
+            crtCtx.lineWidth = 2;
+            crtCtx.strokeRect(barX, barY, barW, barH);
+
+            const fillW = Math.max(12, (barW - 8) * progressBarValue);
+            crtCtx.fillStyle = '#f8fafc';
+            crtCtx.shadowColor = '#38bdf8';
+            crtCtx.shadowBlur = 14;
+            crtCtx.fillRect(barX + 4, barY + 4, fillW, barH - 8);
+            crtCtx.shadowBlur = 0;
+
+            // Scanline overlay
+            crtCtx.fillStyle = 'rgba(0, 0, 0, 0.28)';
+            for (let y = 0; y < h; y += 4) {
+                crtCtx.fillRect(0, y, w, 2);
+            }
+
+            crtTexture.needsUpdate = true;
+        }
+
+        function initLivingDeveloperWorld() {
+            const canvas = document.getElementById('neural-world-canvas');
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x050608, 0.045);
+
+            camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
+
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+
+            // Studio rim lighting to sculpt the dark matte workstation
+            const ambientLight = new THREE.AmbientLight(0x1e2638, 1.35);
+            scene.add(ambientLight);
+
+            const topRimLight = new THREE.DirectionalLight(0xcbd5e1, 1.4);
+            topRimLight.position.set(-6, 12, 8);
+            scene.add(topRimLight);
+
+            const sideRimLight = new THREE.DirectionalLight(0x38bdf8, 0.75);
+            sideRimLight.position.set(10, 5, -6);
+            scene.add(sideRimLight);
+
+            // Cathode screen glow light
+            screenGlowLight = new THREE.PointLight(0xdbeafe, 2.2, 7.5);
+            screenGlowLight.position.set(0, 1.2, 1.3);
+
+            // Keyboard keycap underglow light
+            keyGlowLight = new THREE.PointLight(0xe0f2fe, 1.8, 4.5);
+            keyGlowLight.position.set(0, 0.35, 2.15);
+
+            createCRTScreenTexture();
+            buildCathodeWorkstation();
+            setupWorkstationInteractions();
+        }
+
+        function buildCathodeWorkstation() {
+            workstationGroup = new THREE.Group();
+            // Position slightly to the right on desktop so it balances with hero text
+            updateWorkstationPlacement();
+            scene.add(workstationGroup);
+
+            workstationGroup.add(screenGlowLight);
+            workstationGroup.add(keyGlowLight);
+
+            // Materials matching the dark anodized cathode hardware in the video
+            const darkShellMat = new THREE.MeshStandardMaterial({
+                color: 0x12151c,
+                roughness: 0.42,
+                metalness: 0.55
+            });
+            const innerCharcoalMat = new THREE.MeshStandardMaterial({
+                color: 0x1b202b,
+                roughness: 0.35,
+                metalness: 0.65
+            });
+            const edgeWireMat = new THREE.LineBasicMaterial({
+                color: 0x334155,
+                transparent: true,
+                opacity: 0.48
+            });
+
+            // Subtle dark workstation desk surface & isometric grid
+            const deskGeo = new THREE.PlaneGeometry(26, 26);
+            deskGeo.rotateX(-Math.PI / 2);
+            const deskMat = new THREE.MeshStandardMaterial({
+                color: 0x06080c,
+                roughness: 0.85,
+                metalness: 0.2
+            });
+            const deskMesh = new THREE.Mesh(deskGeo, deskMat);
+            deskMesh.position.y = -0.02;
+            workstationGroup.add(deskMesh);
+
+            const gridHelper = new THREE.GridHelper(18, 36, 0x1e293b, 0x0f172a);
+            gridHelper.position.y = -0.01;
+            gridHelper.material.transparent = true;
+            gridHelper.material.opacity = 0.32;
+            workstationGroup.add(gridHelper);
+
+            // 1. CRT Monitor Assembly
+            monitorGroup = new THREE.Group();
+            monitorGroup.position.set(0, 0, -0.35);
+            workstationGroup.add(monitorGroup);
+
+            // Monitor swivel base pedestal
+            const basePedestal = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.22, 1.7), darkShellMat);
+            basePedestal.position.set(0, 0.11, 0);
+            monitorGroup.add(basePedestal);
+
+            const neckMesh = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.28, 1.1), innerCharcoalMat);
+            neckMesh.position.set(0, 0.32, -0.1);
+            monitorGroup.add(neckMesh);
+
+            crtHousingGroup = new THREE.Group();
+            crtHousingGroup.position.set(0, 1.62, 0);
+            monitorGroup.add(crtHousingGroup);
+
+            // Front Bezel Frame (4 bars around the screen)
+            const bezelThickness = 0.22;
+            const monitorW = 3.1;
+            const monitorH = 2.45;
+            const frameDepth = 0.45;
+
+            const topBar = new THREE.Mesh(new THREE.BoxGeometry(monitorW, bezelThickness, frameDepth), darkShellMat);
+            topBar.position.set(0, monitorH / 2 - bezelThickness / 2, 0.85);
+            const botBar = new THREE.Mesh(new THREE.BoxGeometry(monitorW, bezelThickness * 1.35, frameDepth), darkShellMat);
+            botBar.position.set(0, -monitorH / 2 + (bezelThickness * 1.35) / 2, 0.85);
+            const leftBar = new THREE.Mesh(new THREE.BoxGeometry(bezelThickness, monitorH, frameDepth), darkShellMat);
+            leftBar.position.set(-monitorW / 2 + bezelThickness / 2, 0, 0.85);
+            const rightBar = new THREE.Mesh(new THREE.BoxGeometry(bezelThickness, monitorH, frameDepth), darkShellMat);
+            rightBar.position.set(monitorW / 2 - bezelThickness / 2, 0, 0.85);
+
+            [topBar, botBar, leftBar, rightBar].forEach(part => {
+                const edges = new THREE.EdgesGeometry(part.geometry);
+                part.add(new THREE.LineSegments(edges, edgeWireMat));
+                crtHousingGroup.add(part);
+            });
+
+            // Power LED on bottom right bezel
+            const ledGeo = new THREE.BoxGeometry(0.12, 0.04, 0.04);
+            const ledMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+            statusLedMesh = new THREE.Mesh(ledGeo, ledMat);
+            statusLedMesh.position.set(1.15, -1.05, 1.08);
+            crtHousingGroup.add(statusLedMesh);
+
+            // Live CRT Screen Mesh
+            const screenGeo = new THREE.PlaneGeometry(monitorW - bezelThickness * 1.9, monitorH - bezelThickness * 2.1);
+            const screenMat = new THREE.MeshBasicMaterial({ map: crtTexture });
+            crtScreenMesh = new THREE.Mesh(screenGeo, screenMat);
+            crtScreenMesh.position.set(0, 0.03, 0.72);
+            crtHousingGroup.add(crtScreenMesh);
+
+            const numSlices = 14;
+            const totalDepth = 2.15;
+            for (let i = 0; i < numSlices; i++) {
+                const t = i / (numSlices - 1);
+                // Taper slightly toward the rear like a classic workstation CRT
+                const taper = 1.0 - t * 0.22;
+                const sliceW = monitorW * taper;
+                const sliceH = monitorH * taper;
+                const sliceThickness = 0.095;
+
+                const sliceGeo = new THREE.BoxGeometry(sliceW, sliceH, sliceThickness);
+                const sliceMat = new THREE.MeshStandardMaterial({
+                    color: 0x141821,
+                    emissive: 0x0c192c,
+                    emissiveIntensity: 0.15,
+                    roughness: 0.35,
+                    metalness: 0.65
+                });
+                const sliceMesh = new THREE.Mesh(sliceGeo, sliceMat);
+                const baseZ = 0.58 - i * (totalDepth / numSlices);
+                sliceMesh.position.set(0, 0, baseZ);
+
+                const sliceEdges = new THREE.EdgesGeometry(sliceGeo);
+                const sliceLineMat = new THREE.LineBasicMaterial({
+                    color: 0x64748b,
+                    transparent: true,
+                    opacity: 0.42
+                });
+                const wire = new THREE.LineSegments(sliceEdges, sliceLineMat);
+                sliceMesh.add(wire);
+
+                crtHousingGroup.add(sliceMesh);
+                slicePlates.push({
+                    mesh: sliceMesh,
+                    wire: wire,
+                    baseZ: baseZ,
+                    index: i
+                });
+            }
+
+            const sideUnitGroup = new THREE.Group();
+            sideUnitGroup.position.set(-2.05, 0.82, -0.35);
+            const sideBoxGeo = new THREE.BoxGeometry(0.82, 1.64, 1.95);
+            const sideBox = new THREE.Mesh(sideBoxGeo, darkShellMat);
+            sideBox.add(new THREE.LineSegments(new THREE.EdgesGeometry(sideBoxGeo), edgeWireMat));
+            sideUnitGroup.add(sideBox);
+
+            // Horizontal vent slits on the side drive bay
+            for (let v = 0; v < 6; v++) {
+                const ventGeo = new THREE.BoxGeometry(0.55, 0.035, 0.06);
+                const ventMesh = new THREE.Mesh(ventGeo, new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+                ventMesh.position.set(0, 0.45 - v * 0.11, 0.98);
+                sideUnitGroup.add(ventMesh);
+            }
+            workstationGroup.add(sideUnitGroup);
+
+            const keyboardGroup = new THREE.Group();
+            keyboardGroup.position.set(0.15, 0.12, 1.95);
+            // Slight ergonomic typing tilt
+            keyboardGroup.rotation.x = 0.11;
+
+            const kbWidth = 3.25;
+            const kbDepth = 1.22;
+            const kbBaseGeo = new THREE.BoxGeometry(kbWidth, 0.18, kbDepth);
+            const kbBase = new THREE.Mesh(kbBaseGeo, darkShellMat);
+            kbBase.add(new THREE.LineSegments(new THREE.EdgesGeometry(kbBaseGeo), edgeWireMat));
+            keyboardGroup.add(kbBase);
+
+            const rows = 5;
+            const cols = 15;
+            const startX = -kbWidth / 2 + 0.22;
+            const startZ = -kbDepth / 2 + 0.20;
+            const spacingX = (kbWidth - 0.44) / (cols - 1);
+            const spacingZ = (kbDepth - 0.40) / (rows - 1);
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    // Spacebar handling on bottom row
+                    if (r === 4 && (c >= 5 && c <= 9)) {
+                        if (c !== 7) continue;
+                    }
+                    const isSpacebar = (r === 4 && c === 7);
+                    const keyW = isSpacebar ? spacingX * 4.6 : spacingX * 0.82;
+                    const keyGeo = new THREE.BoxGeometry(keyW, 0.09, spacingZ * 0.8);
+
+                    // Center cluster glows brighter like in the video
+                    const distFromCenter = Math.hypot(c - 7, (r - 2) * 1.4);
+                    const isCoreCluster = distFromCenter < 4.2;
+
+                    const keyMat = new THREE.MeshStandardMaterial({
+                        color: isCoreCluster ? 0xe2e8f0 : 0x1e2430,
+                        emissive: isCoreCluster ? 0xf8fafc : 0x0f172a,
+                        emissiveIntensity: isCoreCluster ? 0.55 : 0.05,
+                        roughness: 0.3
+                    });
+
+                    const keyMesh = new THREE.Mesh(keyGeo, keyMat);
+                    keyMesh.position.set(startX + c * spacingX, 0.12, startZ + r * spacingZ);
+                    keyboardGroup.add(keyMesh);
+
+                    keycapMeshes.push({
+                        mesh: keyMesh,
+                        row: r,
+                        col: c,
+                        isCoreCluster: isCoreCluster,
+                        heat: isCoreCluster ? Math.random() * 0.8 : 0
+                    });
+                }
+            }
+            workstationGroup.add(keyboardGroup);
+
+            const mouseGroup = new THREE.Group();
+            mouseGroup.position.set(2.25, 0.11, 2.05);
+            const mouseGeo = new THREE.BoxGeometry(0.56, 0.18, 0.92);
+            const mouseMesh = new THREE.Mesh(mouseGeo, darkShellMat);
+            mouseMesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(mouseGeo), edgeWireMat));
+            mouseGroup.add(mouseMesh);
+
+            const wheelMesh = new THREE.Mesh(
+                new THREE.BoxGeometry(0.06, 0.06, 0.18),
+                new THREE.MeshBasicMaterial({ color: 0xf8fafc })
+            );
+            wheelMesh.position.set(0, 0.1, -0.22);
+            mouseGroup.add(wheelMesh);
+            workstationGroup.add(mouseGroup);
+        }
+
+        function updateWorkstationPlacement() {
+            if (!workstationGroup) return;
+            if (window.innerWidth >= 1024) {
+                workstationGroup.position.set(1.6, -1.05, 0);
+                workstationGroup.scale.setScalar(1.05);
+            } else {
+                workstationGroup.position.set(0, -1.25, -1.2);
+                workstationGroup.scale.setScalar(0.85);
+            }
+        }
+
+        function triggerKeystrokeBurst() {
+            // Light up random core keycaps when user types or interacts
+            for (let i = 0; i < 4; i++) {
+                const randomKey = keycapMeshes[Math.floor(Math.random() * keycapMeshes.length)];
+                if (randomKey) randomKey.heat = 1.6;
+            }
+            progressBarValue = (progressBarValue + 0.04) % 1.0;
+        }
+
+        function toggleSliceMode() {
+            isDeconstructed = !isDeconstructed;
+            const hud = document.getElementById('butterfly-state-hud');
+            if (hud) {
+                hud.textContent = isDeconstructed
+                    ? 'Cathode: Sliced Array [OPEN]'
+                    : 'Built for the Long Session';
+            }
+        }
+
+        function setupWorkstationInteractions() {
+            window.addEventListener('mousedown', (e) => {
+                isMouseDown = true;
+                prevMouseX = e.clientX;
+                prevMouseY = e.clientY;
+                triggerKeystrokeBurst();
+            });
+
+            window.addEventListener('mouseup', () => {
+                isMouseDown = false;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (isMouseDown) {
+                    const dx = e.clientX - prevMouseX;
+                    const dy = e.clientY - prevMouseY;
+                    targetCamAngleX -= dx * 0.005;
+                    targetCamAngleY = Math.max(0.2, Math.min(1.05, targetCamAngleY + dy * 0.004));
+                    prevMouseX = e.clientX;
+                    prevMouseY = e.clientY;
+                } else {
+                    const normX = (e.clientX / window.innerWidth - 0.5) * 0.32;
+                    const normY = (e.clientY / window.innerHeight - 0.5) * 0.16;
+                    targetCamAngleX = -0.58 + normX;
+                    targetCamAngleY = 0.48 + normY;
+                }
+            });
+
+            window.addEventListener('keydown', () => {
+                triggerKeystrokeBurst();
+            });
+
+            window.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isMouseDown = true;
+                    prevMouseX = e.touches[0].clientX;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => {
+                isMouseDown = false;
+            }, { passive: true });
+
+            window.addEventListener('touchmove', (e) => {
+                if (isMouseDown && e.touches.length === 1) {
+                    const dx = e.touches[0].clientX - prevMouseX;
+                    prevMouseX = e.touches[0].clientX;
+                    targetCamAngleX -= dx * 0.005;
+                }
+            }, { passive: true });
+
+            document.getElementById('trigger-scan-btn').addEventListener('click', toggleSliceMode);
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                updateWorkstationPlacement();
+            });
+        }
+
+        function animateLivingWorld() {
+            requestAnimationFrame(animateLivingWorld);
+            const t = performance.now() * 0.001;
+
+            // Automatic periodic slice transition every ~7 seconds like the video loop
+            if (t - autoCycleTimer > 7.5) {
+                autoCycleTimer = t;
+                toggleSliceMode();
+            }
+
+            // 1. Smooth Isometric Camera Orbit
+            currentCamAngleX += (targetCamAngleX - currentCamAngleX) * 0.05;
+            currentCamAngleY += (targetCamAngleY - currentCamAngleY) * 0.05;
+            const camDist = 9.6;
+            camera.position.x = Math.sin(currentCamAngleX) * camDist;
+            camera.position.z = Math.cos(currentCamAngleX) * camDist;
+            camera.position.y = 1.2 + currentCamAngleY * 6.8;
+            camera.lookAt(0.4, 0.55, 0.2);
+
+            // 2. Update CRT Progress Bar & Terminal Canvas
+            progressBarValue = (t * 0.14) % 1.0;
+            updateCRTScreenTexture(t);
+
+            // 3. Animate CRT Sliced Deconstruction (00:05 - 00:08 video effect)
+            const targetDeconstruct = isDeconstructed ? 1.0 : 0.0;
+            deconstructProgress += (targetDeconstruct - deconstructProgress) * 0.06;
+
+            slicePlates.forEach((slice) => {
+                const i = slice.index;
+                // Expand slices outward and ripple vertically when deconstructed
+                const spreadZ = slice.baseZ - deconstructProgress * (i * 0.095);
+                const waveY = deconstructProgress * Math.sin(t * 4.0 + i * 0.55) * 0.12;
+                const scaleStep = 1.0 + deconstructProgress * Math.sin(t * 3.0 + i * 0.4) * 0.04;
+
+                slice.mesh.position.z = spreadZ;
+                slice.mesh.position.y = waveY;
+                slice.mesh.scale.set(scaleStep, scaleStep, 1);
+
+                // Brighten internal cathode slice edges during deconstruction
+                slice.mesh.material.emissiveIntensity = 0.12 + deconstructProgress * 0.95;
+                slice.wire.material.opacity = 0.35 + deconstructProgress * 0.55;
+            });
+
+            // 4. Rapid "Long Session" Keycap Illumination Ripple
+            if (Math.random() < 0.48 * typingSpeedMultiplier) {
+                const coreKeys = keycapMeshes.filter(k => k.isCoreCluster);
+                const pick = coreKeys[Math.floor(Math.random() * coreKeys.length)];
+                if (pick) pick.heat = 1.35;
+            }
+
+            keycapMeshes.forEach((k) => {
+                k.heat = Math.max(0, k.heat - 0.04);
+                const activeGlow = k.isCoreCluster ? 0.25 + k.heat : k.heat * 0.8;
+                k.mesh.material.emissiveIntensity = activeGlow;
+                // Subtle physical key depression when lit
+                k.mesh.position.y = 0.12 - Math.min(0.035, k.heat * 0.025);
+            });
+
+            // Subtle flicker on keyboard & screen lights
+            keyGlowLight.intensity = 1.5 + Math.sin(t * 18.0) * 0.25;
+            if (statusLedMesh) {
+                statusLedMesh.material.opacity = 0.6 + Math.sin(t * 4.0) * 0.4;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Start animation loop on window load
+        window.onload = function () {
+            initLivingDeveloperWorld();
+            animateLivingWorld();
+        };
     </script>
 </body>
 </html>
